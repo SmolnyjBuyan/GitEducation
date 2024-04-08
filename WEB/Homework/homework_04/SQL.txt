@@ -1,0 +1,12 @@
+CREATE TABLE COMMATES (
+    commateId INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    age INTEGER NOT NULL,
+    address TEXT
+);
+
+INSERT INTO COMMATES VALUES (0001, 'Дмитрий', 28, 'Архангельск');
+INSERT INTO COMMATES VALUES (0002, 'Константин', 34, 'Вельск');
+INSERT INTO COMMATES VALUES (0003, 'Марина', 26, 'Архангельск');
+
+SELECT * FROM COMMATES WHERE address = "Архангельск";
