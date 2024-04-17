@@ -17,10 +17,10 @@ import pandas as pd
 
 
 def ask_data():
-    secondname = input("Введите фамилию: ")
-    firstname = input("Введите имя: ")
-    surname = input("Введите отчество: ")
-    phonenumber = input("Введите номер телефона: ")
+    secondname = input("Введите фамилию: ").strip()
+    firstname = input("Введите имя: ").strip()
+    surname = input("Введите отчество: ").strip()
+    phonenumber = input("Введите номер телефона: ").strip()
     contact = {'secondname': secondname, 'firstname': firstname, 'surname': surname, 'phonenumber': phonenumber}
 
     return contact
@@ -33,6 +33,12 @@ def add_new_contact():
         for value in list(contact.values())[:-1]:
             file.write(f"{value};")
         file.write(list(contact.values())[-1] + '\n')
+
+
+def write_file(table, name='phonebook.txt'):
+    with open(name, 'w', encoding="utf-8") as file:
+        for row in table:
+            file.write(';'.join(row) + '\n')
 
 
 def create_table(mask=None):
@@ -57,42 +63,63 @@ def print_table(table):
 
 
 def copy_contact():
+    target_contact = []
     table = create_table()
+
     print_table(table)
-    
-    index = int(input("Введите порядковый номер контакта: "))
-    with open(f'{'_'.join(table[index - 1][:-1])}.txt', 'w', encoding="utf-8") as file:
-        file.write(' '.join(table[index - 1]))
+    index = int(input("\nВведите порядковый номер контакта: ").strip())
+    target_contact.append(table.pop(index - 1))
+
+    write_file(target_contact, name=f'{'_'.join(target_contact[0][:-1])}.txt')
 
 
 def delete_contact():
     table = create_table()
+    
     print_table(table)
-
-    index = int(input("Введите порядковый номер контакта: "))
+    index = int(input("\nВведите порядковый номер контакта: ").strip())
+    print()
     table.pop(index - 1)
-    with open('phonebook.txt', 'w', encoding="utf-8") as file:
-        for row in table:
-            file.write(';'.join(row) + '\n')
+
+    write_file(table)
+
+
+def change_contact():
+    target_contact = []
+    table = create_table()
+
+    print_table(table)
+    index = int(input("\nВведите порядковый номер контакта: ").strip())
+    print()
+
+    target_contact.append(table.pop(index - 1))
+    print_table(target_contact)
+
+    print("\nЗаполните данные заново")
+    target_contact = ask_data()
+    table.insert(index - 1, list(target_contact.values()))
+
+    write_file(table)
 
 
 def main():
     isStop = None
     while isStop != 0:
-        print()
-        print(f"Главное меню:\n1 Посмотреть контакты \n2 Добавить контакт \n3 Поиск \n4 Скопировать контакт в визитную карточку \n5 Удалить контакт \n0 Выход")
-        isStop = int(input(">>> "))
+        print(f"\nГлавное меню:\n1 Посмотреть контакты \n2 Добавить контакт \n3 Поиск \n4 Скопировать контакт в визитную карточку \n5 Удалить контакт \n6 Изменить контакт \n0 Выход")
+        isStop = int(input("\n>>> ").strip())
         print()
         if isStop == 1:
             print_table(create_table())
         elif isStop == 2:
             add_new_contact()
         elif isStop == 3:
-            print_table(create_table(input("Поиск: ").lower()))
+            print_table(create_table(input("Поиск: ").lower().strip()))
         elif isStop == 4:
             copy_contact()
         elif isStop == 5:
             delete_contact()
+        elif isStop == 6:
+            change_contact()
         input("\nНажмите Enter чтобы продолжить")
 
 
