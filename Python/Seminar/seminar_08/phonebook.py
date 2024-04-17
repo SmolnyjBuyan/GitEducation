@@ -26,13 +26,28 @@ def ask_data():
     return contact
 
 
+def check_data(contact):
+    contact = (";".join(contact.values())) + '\n'
+    
+    with open('phonebook.txt', 'r', encoding="utf-8") as file:
+        for line in file:
+            if line == contact:
+                return True
+    
+    return False
+
+
 def add_new_contact():
     contact = ask_data()
 
-    with open('phonebook.txt', 'a', encoding="utf-8") as file:
-        for value in list(contact.values())[:-1]:
-            file.write(f"{value};")
-        file.write(list(contact.values())[-1] + '\n')
+    if check_data(contact):
+        print("Такой контакт уже существует!")
+        return
+    else:
+        with open('phonebook.txt', 'a', encoding="utf-8") as file:
+            for value in list(contact.values())[:-1]:
+                file.write(f"{value};")
+            file.write(list(contact.values())[-1] + '\n')
 
 
 def write_file(table, name='phonebook.txt'):
@@ -120,6 +135,8 @@ def main():
             delete_contact()
         elif isStop == 6:
             change_contact()
+        elif isStop == 7:
+            check_data()
         input("\nНажмите Enter чтобы продолжить")
 
 
