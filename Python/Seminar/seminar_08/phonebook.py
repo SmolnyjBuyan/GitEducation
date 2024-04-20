@@ -118,6 +118,9 @@ def change_contact():
 
 
 def main():
+    file = open('phonebook.txt', 'a')
+    file.close()
+
     isStop = None
     while isStop != 0:
         print(f"\nГлавное меню:\n1 Посмотреть контакты \n2 Добавить контакт \n3 Поиск \n4 Скопировать контакт в визитную карточку \n5 Удалить контакт \n6 Изменить контакт \n0 Выход")
