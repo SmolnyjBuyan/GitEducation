@@ -1,0 +1,12 @@
+апр. 29, 2024 2:21:57 PM task_01 main
+INFO: Приложение стартовало
+апр. 29, 2024 2:21:57 PM task_01 readFileNamesInDir
+SEVERE: Возникла ошибка: метод чтения
+апр. 29, 2024 2:22:59 PM task_01 main
+INFO: Приложение стартовало
+апр. 29, 2024 2:22:59 PM task_01 readFileNamesInDir
+SEVERE: Возникла ошибка: метод чтения
+апр. 29, 2024 2:23:10 PM task_01 main
+INFO: Приложение стартовало
+апр. 29, 2024 2:23:10 PM task_01 writeFileNamesInFile
+SEVERE: Возникла ошибка: метод записи

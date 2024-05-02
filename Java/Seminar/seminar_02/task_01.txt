@@ -1,0 +1,8 @@
+first
+log.0.0.txt
+log.0.0.txt.lck
+log.config
+log.java
+second
+task_01.java
+task_01.txt
