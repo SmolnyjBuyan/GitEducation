@@ -1,34 +1,53 @@
 package contacts;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Objects;
 
 public class Contact {
 
-    private String name;
+    private String firstname;
+    private String lastname;
 
-    private List<Long> phonenumbers = new ArrayList<>();
 
-    public Contact(String name) {
-        this.name = name;
+    public Contact(String firstname, String lastname) {
+        String formatFirstname = firstname.toLowerCase().trim();
+        formatFirstname = formatFirstname.substring(0, 1).toUpperCase() + formatFirstname.substring(1);
+        String formatLastname = lastname.toLowerCase().trim();
+        formatLastname = formatLastname.substring(0, 1).toUpperCase() + formatLastname.substring(1);
+
+        this.firstname = formatFirstname;
+        this.lastname = formatLastname;
+    }       
+
+    
+    public String getFirstname() {
+        return firstname;
     }
 
-    public String getName() {
-        return name;
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
-    public List<Long> getPhonenumbers() {
-        return phonenumbers;
+
+    public String getLastname() {
+        return lastname;
     }
+
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+
 
     @Override
     public String toString() {
-        return name;
+        return lastname + " " + firstname;
     }
 
     @Override
     public int hashCode() {
-        name = name.toLowerCase();
+        String name = (this.toString()).toLowerCase();
         return Objects.hashCode(name);
     }
 
@@ -41,10 +60,10 @@ public class Contact {
         if (getClass() != obj.getClass())
             return false;
         Contact other = (Contact) obj;
-        if (name == null) {
-            if (other.name != null)
+        if (firstname == null && lastname == null) {
+            if (other.firstname == null && other.lastname == null)
                 return false;
-        } else if (!name.equals(other.name))
+        } else if (!firstname.equals(other.firstname) || !lastname.equals(other.lastname))
             return false;
 
         return true;
