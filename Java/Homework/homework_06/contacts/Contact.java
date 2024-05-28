@@ -47,9 +47,13 @@ public class Contact {
 
     @Override
     public int hashCode() {
-        String name = (this.toString()).toLowerCase();
-        return Objects.hashCode(name);
+        return this.firstname.charAt(0) + this.lastname.charAt(0);
     }
+    // @Override
+    // public int hashCode() {
+    //     String name = (this.toString()).toLowerCase();
+    //     return Objects.hashCode(name);
+    // }
 
     @Override
     public boolean equals(Object obj) {
