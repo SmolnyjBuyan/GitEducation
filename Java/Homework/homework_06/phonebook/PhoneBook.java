@@ -1,10 +1,12 @@
 package phonebook;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
+import java.util.Map.Entry;
 
 import contacts.Contact;
 
@@ -13,7 +15,8 @@ public class PhoneBook {
     private Map<Contact, List<Long>> phoneBook = new HashMap<>();
 
     public void addPhonenumber(String firstname, String lastname, long phonenumber) {
-        if (!validContactData(firstname, lastname)) return;
+        if (!validContactData(firstname, lastname))
+            return;
 
         Contact newContact = new Contact(firstname, lastname);
 
@@ -25,7 +28,6 @@ public class PhoneBook {
             phoneBook.put(newContact, phonenumbers);
         }
     }
-
 
     public boolean validContactData(String firstname, String lastname) {
         if (firstname == null || firstname.isEmpty()) {
@@ -47,28 +49,31 @@ public class PhoneBook {
         }
     }
 
-
     public void deletePhonenumber(String firstname, String lastname, long phonenumber) {
-        if (!validContactData(firstname, lastname)) return;
+        if (!validContactData(firstname, lastname) || (!isContactExist(firstname, lastname)))
+            return;
 
         Contact contact = new Contact(firstname, lastname);
-
-        if (!isContactExist(firstname, lastname)) return;
         phoneBook.get(contact).remove(phonenumber);
     }
 
-    
     public void deleteContact(String firstname, String lastname) {
-        if (!validContactData(firstname, lastname)) return;
+        if (!validContactData(firstname, lastname) || (!isContactExist(firstname, lastname)))
+            return;
 
         Contact contact = new Contact(firstname, lastname);
-
-        if (!isContactExist(firstname, lastname)) return;
         phoneBook.remove(contact);
     }
 
+    public void printSortedContacts() {
+        Comparator<Entry<Contact, List<Long>>> comparator = Comparator
+                .comparing(entry -> Integer.valueOf(entry.getValue().size()));
+        List<Entry<Contact, List<Long>>> sortedList = new LinkedList<>(phoneBook.entrySet());
 
-    public void printAll() {
-        System.out.println(phoneBook);
+        sortedList.sort(comparator.reversed());
+
+        for (Entry<Contact, List<Long>> entry : sortedList) {
+            System.out.println(entry);
+        }
     }
 }

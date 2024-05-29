@@ -1,12 +1,11 @@
 package contacts;
 
-import java.util.Objects;
+// import java.util.Objects;
 
 public class Contact {
 
     private String firstname;
     private String lastname;
-
 
     public Contact(String firstname, String lastname) {
         String formatFirstname = firstname.toLowerCase().trim();
@@ -16,29 +15,7 @@ public class Contact {
 
         this.firstname = formatFirstname;
         this.lastname = formatLastname;
-    }       
-
-    
-    public String getFirstname() {
-        return firstname;
     }
-
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-
-    public String getLastname() {
-        return lastname;
-    }
-
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-
 
     @Override
     public String toString() {
@@ -51,8 +28,8 @@ public class Contact {
     }
     // @Override
     // public int hashCode() {
-    //     String name = (this.toString()).toLowerCase();
-    //     return Objects.hashCode(name);
+    // String name = (this.toString()).toLowerCase();
+    // return Objects.hashCode(name);
     // }
 
     @Override
