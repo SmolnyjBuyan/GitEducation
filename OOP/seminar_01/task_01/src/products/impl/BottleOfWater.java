@@ -9,19 +9,22 @@ public class BottleOfWater extends Product {
     private float volume;
     private String pack;
     private boolean isSpark;
+    private LocalDate releaseDate;
 
-    public BottleOfWater(String name, double price, LocalDate releaseDate) {
-        super(name, price, releaseDate);
+    public BottleOfWater(String name, double price) {
+        super(name, price);
         this. isSpark = false;
         this.volume = 1;
+        this.releaseDate = LocalDate.now();
         this.pack = EPackage.PLASTIC.getMaterial();
     }
 
-    public BottleOfWater(String name, double price, LocalDate releaseDate, float volume, String pack, boolean isSpark) {
-        super(name, price, releaseDate);
+    public BottleOfWater(String name, double price, float volume, String pack, boolean isSpark, LocalDate releaseDate) {
+        super(name, price);
         this.volume = volume;
         this.pack = pack;
         this.isSpark = isSpark;
+        this.releaseDate = releaseDate;
     }
 
     public String getPack() {
@@ -34,6 +37,10 @@ public class BottleOfWater extends Product {
 
     public boolean isSpark() {
         return isSpark;
+    }
+
+    public LocalDate getReleaseDate() {
+        return releaseDate;
     }
 
     @Override

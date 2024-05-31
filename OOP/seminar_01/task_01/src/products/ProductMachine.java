@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ProductMachine {
 
-    private List<Product> productList;
+    protected List<Product> productList;
 
     public void addProducts(List<Product> productList) {
         this.productList.addAll(productList);
@@ -20,7 +20,7 @@ public class ProductMachine {
             }
         }
 
-        System.out.println("No such product" + name);
+        System.out.println("No such product: " + name);
         return null;
     }
 
@@ -34,5 +34,12 @@ public class ProductMachine {
 
     public List<Product> getProductList() {
         return productList;
+    }
+
+    public void printProductList() {
+        System.out.println();
+        for (Product product : productList) {
+            System.out.println(product);
+        }
     }
 }

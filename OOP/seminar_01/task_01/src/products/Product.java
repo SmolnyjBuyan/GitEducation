@@ -1,23 +1,19 @@
 package products;
 
-import java.time.LocalDate;
-
 public class Product {
 
     protected String name;
     protected double price;
-    protected LocalDate releaseDate;
 
-    public Product(String name, double price, LocalDate releaseDate) {
+
+    public Product(String name, double price) {
         this.name = name;
         this.price = price;
-        this.releaseDate = releaseDate;
     }
 
     public Product(String name) {
         this.name = name;
         price = 0;
-        releaseDate = LocalDate.now();
     }
 
     public String getName() {
@@ -26,10 +22,6 @@ public class Product {
 
     public double getPrice() {
         return price;
-    }
-
-    public LocalDate getReleaseDate() {
-        return releaseDate;
     }
 
     public void setPrice(double price) {
@@ -66,7 +58,6 @@ public class Product {
         return "Product{" +
                 "name='" + name + '\'' +
                 ", price=" + price +
-                ", releaseDate=" + releaseDate +
                 '}';
     }
 }
