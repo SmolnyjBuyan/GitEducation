@@ -2,6 +2,7 @@ import products.Product;
 import products.ProductMachine;
 import products.impl.BottleOfWater;
 import products.impl.EPackage;
+import products.impl.HotDrink;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -21,21 +22,30 @@ public class Main {
 //        System.out.println(String.format("\n Это яблоко: %s", productMachine.getProduct("orange")));
 //        System.out.println(String.format("\n Это яблоко: %s", productMachine.getProduct("watermelon")));
 
-        Product bottle1 = new BottleOfWater("Родники", 55, LocalDate.of(2024, 5, 1));
-        Product bottle2 = new BottleOfWater("Родники Газированная", 55, LocalDate.of(2024, 5, 1),
-                0.5F ,EPackage.GLASS.getMaterial(),true);
+//        Product bottle1 = new BottleOfWater("Родники", 55, LocalDate.of(2024, 5, 1));
+//        Product bottle2 = new BottleOfWater("Родники Газированная", 55, LocalDate.of(2024, 5, 1),
+//                0.5F ,EPackage.GLASS.getMaterial(),true);
+//
+//        ProductMachine pm = new ProductMachine();
+//
+//        System.out.println(pm.getProductList());
+//
+//        pm.addProducts(List.of(bottle1, bottle1, bottle1, bottle2, bottle2, bottle2, bottle2));
+//
+//        System.out.println(pm.getProductList());
+//
+//        pm.getProduct("Родники");
+//
+//        System.out.println(pm.getProductList());
 
-        ProductMachine pm = new ProductMachine();
+        ProductMachine productMachine = new ProductMachine();
 
-        System.out.println(pm.getProductList());
+        System.out.println(productMachine.getProductList());
 
-        pm.addProducts(List.of(bottle1, bottle1, bottle1, bottle2, bottle2, bottle2, bottle2));
+        Product tea = new HotDrink("Чай зеленый", 50, LocalDate.now());
 
-        System.out.println(pm.getProductList());
+        productMachine.getProductList().add(tea);
 
-        pm.getProduct("Родники");
-
-        System.out.println(pm.getProductList());
-
+        System.out.println(productMachine.getProductList());
     }
 }
