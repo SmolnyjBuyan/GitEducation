@@ -5,27 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c8a7c983-cbf7-4c21-9b72-6c1f502d2380" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../VendingMachine/src/products/Product.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../VendingMachine/src/products/ProductMachine.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../VendingMachine/src/products/impl/BottleOfWater.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../VendingMachine/src/products/impl/Cup.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../VendingMachine/src/products/impl/EPackage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../VendingMachine/src/products/impl/HotDrink.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../VendingMachine/src/products/impl/HotDrinkProductMachine.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../VendingMachine/src/products/impl/WaterProductMachine.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../VendingMachine/src/products/impl/hotDrinksImpl/Coffee.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../VendingMachine/src/products/impl/hotDrinksImpl/HotTea.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../VendingMachine/src/products/impl/hotDrinksImpl/TypeOfCoffee.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../VendingMachine/src/products/impl/hotDrinksImpl/TypeOfTea.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/task_01.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../.idea/GitEducation.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/marketplace/Basket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/marketplace/Basket.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,21 +38,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Study/GitEducation/OOP/seminar_02/task_01/src/products&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/Study/GitEducation/OOP/seminar_02/task_01/src/products",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Study\GitEducation\OOP\seminar_02\task_01\src\products" />
@@ -78,8 +62,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.17011.79" />
-        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.17011.79" />
+        <option value="jdk-22-openjdk-22-3183f394aec4-bad0321e" />
       </set>
     </attachedChunks>
   </component>

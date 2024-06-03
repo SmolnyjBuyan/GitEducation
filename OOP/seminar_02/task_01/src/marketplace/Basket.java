@@ -25,6 +25,18 @@ public class Basket {
         }
     }
 
+    public void removeProductFromBasket(Product product, Market market) {
+        if (products.containsKey(product)) {
+            products.put(product, products.get(product) - 1);
+            if (products.get(product) == 0) {
+                products.remove(product);
+            }
+            market.addProduct(product);
+        } else {
+            System.out.println("В корзине такого товара нет!");
+        }
+    }
+
     public double getBasketFullPrice() {
         double sum = 0;
         for (Map.Entry<Product, Integer> entry : this.products.entrySet()) {

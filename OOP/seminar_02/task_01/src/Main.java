@@ -43,7 +43,9 @@ public class Main {
         market.addProducts(milk, 3);
         market.addProducts(pasta, 3);
         market.addProducts(bread, 4);
-        System.out.println(market.getProducts());
+
+
+        System.out.println("Товары в наличие: \n" + market.getProducts() + "\n");
 
 
         market.acceptToMarket(first);
@@ -54,13 +56,21 @@ public class Main {
         first.basket.addToBasket(bread, market);
         first.basket.addToBasket(pasta, market);
 
-        System.out.println(first.getName() + " заполнил свою корзину:\n" + first.basket.getBasket());
+        System.out.println(first.getName() + " заполнил свою корзину: \n" + first.basket.getBasket() + "\n");
         System.out.println("Оставшиеся товары в магазине: \n" + market.getProducts());
 
-        System.out.println(first.getName() + " готов сделать зазаз");
+        first.basket.removeProductFromBasket(bread, market);
+        System.out.println(first.getName() + " убрал хлеб из корзины: \n" + first.basket.getBasket() + "\n");
+        System.out.println("Оставшиеся товары в магазине: \n" + market.getProducts());
+
+        System.out.println(first.getName() + " ошибочно убирает товар из корзины: ");
+        first.basket.removeProductFromBasket(bread, market);
+
+
+        System.out.println("\n" + first.getName() + " готов сделать зазаз");
         first.setReadyToOrder(true);
         market.getInQueue(first);
-        System.out.println(first.getName() + " встал в очередь: \n" + market.getQueue());
+        System.out.println(first.getName() + " встал в очередь: \n" + market.getQueue() + "\n");
 
         market.acceptToMarket(second);
         System.out.println("В магазин зашел " + second.getName());
@@ -72,10 +82,10 @@ public class Main {
         second.basket.addToBasket(water, market);
         second.basket.addToBasket(bread, market);
 
-        System.out.println(second.getName() + " заполнил свою корзину:\n" + second.basket.getBasket());
-        System.out.println("Оставшиеся товары в магазине: \n" + market.getProducts());
+        System.out.println(second.getName() + " заполнил свою корзину:\n" + second.basket.getBasket() + "\n");
+        System.out.println("Оставшиеся товары в магазине: \n" + market.getProducts() + "\n");
 
-        System.out.println(first.getName() + " готов сделать зазаз");
+        System.out.println(second.getName() + " готов сделать зазаз");
         second.setReadyToOrder(true);
         market.getInQueue(second);
         System.out.println(second.getName() + " встал в очередь: \n" + market.getQueue());
@@ -85,7 +95,7 @@ public class Main {
         System.out.println("\nОставшиеся товары: \n" + market.getProducts());
 
         market.update();
-        System.out.println("\nОбслужили первого покупателя. Очередь: \n" + market.getQueue());
+        System.out.println("\nОбслужили вторго покупателя. Очередь: \n" + market.getQueue());
         System.out.println("\nОставшиеся товары: \n" + market.getProducts());
 
         System.out.println("Оставшиеся покупатели: \n" + market.getCustomers());
