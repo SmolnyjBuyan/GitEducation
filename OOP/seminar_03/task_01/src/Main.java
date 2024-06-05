@@ -5,18 +5,16 @@
 //интерфейс Iterator
 //� Реализовать его контракты (включая удаление)
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
         StudentGroup studentGroup = new StudentGroup();
 
-        Student niko = new Student("Niko");
-        Student tony = new Student("Tony");
-        Student steve = new Student("Steve");
-        Student ron = new Student("Ron");
+        Student niko = new Student("Niko", 4);
+        Student tony = new Student("Tony", 1);
+        Student steve = new Student("Steve", 2);
+        Student ron = new Student("Ron", 3);
 
         studentGroup.addStudent(niko);
         studentGroup.addStudent(tony);
@@ -26,20 +24,13 @@ public class Main {
         System.out.println(studentGroup.students);
         Iterator<Student> iterator = new StudentGroupIterator(studentGroup);
 
-
-        System.out.println(studentGroup.students);
-
-        List<Integer> students = new ArrayList<>(List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
-
-        Iterator<Integer> iterator1 = students.iterator();
-
-        while (iterator1.hasNext()) {
-            if (iterator1.next() % 2 == 0) {
-                iterator1.remove();
-            }
+        for (Student student : studentGroup) {
+            System.out.println(student);
         }
 
-        System.out.println(students);
-
+        ArrayList<Student> arrayList = new ArrayList<>(List.of(niko, tony, steve,ron));
+        System.out.println(arrayList);
+        Collections.sort(arrayList, (s1, s2) -> s1.id - s2.id);
+        System.out.println(arrayList);
     }
 }

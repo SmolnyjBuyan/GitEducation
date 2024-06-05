@@ -1,10 +1,15 @@
+import javax.annotation.processing.Completion;
 import java.util.Objects;
 
-public class Student {
-    private String name;
+public class Student  implements Comparable<Student> {
 
-    public Student(String name) {
+    private String name;
+    public int id;
+
+    public Student(String name, int id) {
         this.name = name;
+        this.id = id;
+
     }
 
     @Override
@@ -26,4 +31,11 @@ public class Student {
     }
 
 
+    @Override
+    public int compareTo(Student o) {
+        return o.name.length() - this.name.length();
+//        if (o.name.length() > this.name.length()) return -1;
+//        else if (o.name.length() < this.name.length()) return 1;
+//        else return 0;
+    }
 }

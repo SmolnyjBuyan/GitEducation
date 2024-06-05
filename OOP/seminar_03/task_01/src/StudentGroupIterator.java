@@ -12,7 +12,7 @@ public class StudentGroupIterator implements Iterator<Student> {
         String[] names = studentGroup.students.toString().split(" ");
         Student[] students = new Student[names.length];
         for (int i = 0; i < names.length; i++) {
-            students[i] = new Student(names[i]);
+            students[i] = new Student(names[i], i);
         }
         return students;
     }
