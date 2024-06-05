@@ -5,27 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c8a7c983-cbf7-4c21-9b72-6c1f502d2380" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../VendingMachine/src/products/Product.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../VendingMachine/src/products/ProductMachine.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../VendingMachine/src/products/impl/BottleOfWater.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../VendingMachine/src/products/impl/Cup.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../VendingMachine/src/products/impl/EPackage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../VendingMachine/src/products/impl/HotDrink.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../VendingMachine/src/products/impl/HotDrinkProductMachine.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../VendingMachine/src/products/impl/WaterProductMachine.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../VendingMachine/src/products/impl/hotDrinksImpl/Coffee.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../VendingMachine/src/products/impl/hotDrinksImpl/HotTea.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../VendingMachine/src/products/impl/hotDrinksImpl/TypeOfCoffee.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../VendingMachine/src/products/impl/hotDrinksImpl/TypeOfTea.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/task_01.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../.idea/GitEducation.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,7 +72,9 @@
       <option name="presentableId" value="Default" />
       <updated>1717318315386</updated>
       <workItem from="1717318316404" duration="28393000" />
-      <workItem from="1717384737941" duration="5559000" />
+      <workItem from="1717384737941" duration="5825000" />
+      <workItem from="1717430178706" duration="1283000" />
+      <workItem from="1717525691536" duration="76000" />
     </task>
     <servers />
   </component>
