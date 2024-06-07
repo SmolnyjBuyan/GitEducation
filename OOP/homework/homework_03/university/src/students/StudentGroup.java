@@ -13,6 +13,10 @@ public class StudentGroup implements Iterable<Student>{
         this.students = students;
     }
 
+    public void addStudent(Student student){
+        students.add(student);
+    }
+
     public int getNumber() {
         return number;
     }

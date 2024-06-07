@@ -1,17 +1,13 @@
-import students.Student;
-import students.StudentGroup;
-import students.StudentGroupIterator;
+import students.*;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        Student first = new Student("Котов", "Андрей", "Андреевич");
-        Student second = new Student("Кожевин", "Сергей", "Михайлович");
-        Student third = new Student("Столяренко", "Дмитрий", "Александрович");
-        Student fourth = new Student("Митинский", "Василий", "Васильевич");
+        Student first = new Student("Котов", "Андрей", "Андреевич", 3);
+        Student second = new Student("Кожевин", "Сергей", "Михайлович",4);
+        Student third = new Student("Столяренко", "Дмитрий", "Александрович", 2);
+        Student fourth = new Student("Митинский", "Василий", "Васильевич", 1);
 
         List<Student> fg = new ArrayList<>(List.of(first, second, third, fourth));
         StudentGroup firstGroup = new StudentGroup(1, fg);
@@ -25,7 +21,7 @@ public class Main {
 
 
         while (iterator.hasNext()) {
-            if (iterator.next().toString().charAt(0) == 'К') {
+            if (iterator.next().getLastname().charAt(0) == 'К') {
                 iterator.remove();
             }
         }
@@ -38,6 +34,25 @@ public class Main {
             System.out.println(student);
         }
 
+        System.out.println("\nСоздать класс УчебнаяГруппаСервис, добавив в него метод удаления студента по ФИО\n");
+
+        StudentGroupService service = new StudentGroupService(firstGroup);
+        service.removeStudent("Столяренко", "Дмитрий", "Александрович");
+
+        System.out.println(firstGroup);
+        firstGroup.addStudent(first);
+        firstGroup.addStudent(second);
+        firstGroup.addStudent(third);
+
+        System.out.println("\nМодифицировать класс УчебнаяГруппаСервис, добавив в него метод сортировки списка студентов по id\n");
+        System.out.println(firstGroup);
+        service.sortStudentsById();
+        System.out.println(firstGroup);
+
+        System.out.println("\nРеализовать контракт compare () со сравнением по какому-либо параметру (пример: сочетание Имя+Фамилия)\n");
+        System.out.println(firstGroup);
+        service.sortStudentsByName();
+        System.out.println(firstGroup);
 
     }
 }
