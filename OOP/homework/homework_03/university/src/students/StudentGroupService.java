@@ -1,17 +1,11 @@
 package students;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
 
 public class StudentGroupService {
-    StudentGroup studentGroup;
 
-    public StudentGroupService(StudentGroup studentGroup) {
-        this.studentGroup = studentGroup;
-    }
-
-    public void removeStudent(String lastName, String firstName, String surname) {
+    public void removeStudent(StudentGroup studentGroup, String lastName, String firstName, String surname) {
         Iterator<Student> iterator = studentGroup.iterator();
         while (iterator.hasNext()) {
             Student student = iterator.next();
@@ -23,11 +17,11 @@ public class StudentGroupService {
         }
     }
 
-    public void sortStudentsById() {
+    public void sortStudentsById(StudentGroup studentGroup) {
         Collections.sort(studentGroup.getStudents());
     }
 
-    public void sortStudentsByName() {
+    public void sortStudentsByName(StudentGroup studentGroup) {
         StudentComparator comparator = new StudentComparator();
         Collections.sort(studentGroup.getStudents(), comparator.reversed());
     }

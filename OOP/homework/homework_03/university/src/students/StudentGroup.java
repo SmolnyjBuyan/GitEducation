@@ -8,6 +8,10 @@ public class StudentGroup implements Iterable<Student>{
     private int number;
     private List<Student> students;
 
+    public StudentGroup(int number) {
+        this.number = number;
+    }
+
     public StudentGroup(int number, List<Student> students) {
         this.number = number;
         this.students = students;
@@ -28,7 +32,7 @@ public class StudentGroup implements Iterable<Student>{
 
     @Override
     public String toString() {
-        return "StudentGroup{" +
+        return "StudentGroup=" + number + "{" +
                 "students=" + students +
                 '}';
     }
