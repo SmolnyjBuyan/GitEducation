@@ -26,4 +26,8 @@ public class StudentGroupController {
     public void sortStudentsByName(StudentGroup studentGroup) {
         studentGroupService.sortStudentsByName();
     }
+
+    public void sendOnConsole(){
+        studentGroupService.sendOnConsole();
+    }
 }

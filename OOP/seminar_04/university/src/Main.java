@@ -124,5 +124,8 @@ public class Main {
 
         thirdStreamController.sortStreamsByGroupCount(streams);
         System.out.println(streams);
+
+        System.out.println("\nStudentView\n");
+        firstGroupStudentGroupController.sendOnConsole();
     }
 }
