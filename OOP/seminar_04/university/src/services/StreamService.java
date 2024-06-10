@@ -1,7 +1,7 @@
 package services;
 
 import models.Stream;
-import models.StreamComparator;
+import util.StreamComparator;
 import models.StudentGroup;
 
 import java.util.List;

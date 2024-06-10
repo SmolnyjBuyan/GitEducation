@@ -1,37 +1,11 @@
 package models;
 
-public class Student implements Comparable<Student>{
-    private int id;
-    private String firstname;
-    private String lastname;
-    private String surname;
+public class Student extends User{
 
-    public Student(String lastname, String firstname, String surname, int id) {
-        this.lastname = lastname;
-        this.firstname = firstname;
-        this.surname = surname;
+    public Student(String lastName, String firstName, String surname, int id) {
         this.id = id;
-    }
-
-    @Override
-    public String toString() {
-        return id + ". " + lastname + " " + firstname + " " + surname;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    @Override
-    public int compareTo(Student o) {
-        return this.id-o.id;
+        this.lastname = lastName;
+        this.firstname = firstName;
+        this.surname = surname;
     }
 }

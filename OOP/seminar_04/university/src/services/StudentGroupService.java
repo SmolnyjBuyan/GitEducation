@@ -1,7 +1,7 @@
 package services;
 
 import models.Student;
-import models.StudentComparator;
+import util.UserComparator;
 import models.StudentGroup;
 
 import java.util.Collections;
@@ -36,7 +36,7 @@ public class StudentGroupService {
     }
 
     public void sortStudentsByName() {
-        StudentComparator comparator = new StudentComparator();
+        UserComparator comparator = new UserComparator();
         Collections.sort(studentGroup.getStudents(), comparator.reversed());
     }
 }

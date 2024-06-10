@@ -1,4 +1,6 @@
-package models;
+package util;
+
+import models.Stream;
 
 import java.util.Comparator;
 

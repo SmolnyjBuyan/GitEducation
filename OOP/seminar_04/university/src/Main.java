@@ -2,9 +2,9 @@ import controllers.StreamController;
 import controllers.StudentGroupController;
 import models.Student;
 import models.StudentGroup;
-import models.StudentGroupIterator;
+import util.StudentGroupIterator;
 import models.Stream;
-import models.StreamComparator;
+import util.StreamComparator;
 import services.StreamService;
 import services.StudentGroupService;
 

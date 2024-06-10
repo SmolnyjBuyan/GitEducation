@@ -1,10 +1,13 @@
-package models;
+package util;
+
+import models.Student;
+import models.StudentGroup;
 
 import java.util.Iterator;
 
 public class StudentGroupIterator implements Iterator<Student> {
     private int index;
-    StudentGroup studentGroup;
+    private StudentGroup studentGroup;
 
     public StudentGroupIterator(StudentGroup studentGroup) {
         this.studentGroup = studentGroup;
