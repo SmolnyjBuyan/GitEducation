@@ -2,22 +2,15 @@ package services;
 
 import models.Student;
 import models.User;
-import util.StudentView;
+import view.StudentView;
 import util.UserComparator;
 import models.StudentGroup;
-import util.UserView;
 
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
 
 public class StudentGroupService{
     private StudentGroup studentGroup;
-    StudentView studentView = new StudentView();
-
-    public void sendOnConsole() {
-        studentView.sendOnConsole(studentGroup.getStudents());
-    }
 
     public StudentGroupService(StudentGroup studentGroup) {
         this.studentGroup = studentGroup;

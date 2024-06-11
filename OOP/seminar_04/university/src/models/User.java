@@ -25,6 +25,18 @@ public abstract class User implements Comparable<User>{
         return surname;
     }
 
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
     @Override
     public int compareTo(User o) {
         return this.id-o.id;
