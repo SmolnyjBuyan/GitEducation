@@ -2,7 +2,7 @@ package controllers;
 
 import models.User;
 
-public interface UserController {
+public interface UserController<T extends User> {
 
-    <T extends User> User create(T user);
+    T create(String lastName, String firstName, String fatherName);
 }

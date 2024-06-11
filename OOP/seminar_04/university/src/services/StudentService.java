@@ -13,7 +13,7 @@ public class StudentService {
         studentView.sendOnConsole(students);
     }
 
-    public Student createStudent(String lastname, String firstname, String surname, int id) {
-        return new Student(lastname, firstname, surname, id);
+    public Student createStudent(String lastname, String firstname, String fatherName) {
+        return new Student(lastname, firstname, fatherName);
     }
 }

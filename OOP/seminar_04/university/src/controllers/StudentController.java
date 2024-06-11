@@ -1,12 +1,11 @@
 package controllers;
 
 import models.Student;
-import models.User;
 import services.StudentService;
 
 import java.util.List;
 
-public class StudentController implements UserController{
+public class StudentController implements UserController<Student>{
     public StudentService studentService = new StudentService();
 
     public void sendOnConsole(List<Student> students) {
@@ -14,7 +13,7 @@ public class StudentController implements UserController{
     }
 
     @Override
-    public <T extends User> User create(T user) {
-        return user;
+    public Student create(String lastName, String firstName, String fatherName) {
+        return studentService.createStudent(lastName, firstName, fatherName);
     }
 }
