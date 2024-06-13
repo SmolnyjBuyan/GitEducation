@@ -1,21 +1,23 @@
-package service;
+package service.impl;
 
 import model.db.DataBase;
 import model.impl.Student;
+import service.UserService;
 
 import java.util.List;
 
-public class StudentService {
-
-    public Student createStudent(String name, String lastName, int groupId) {
+public class StudentService implements UserService<Student> {
+    @Override
+    public Student create(String name, String lastName) {
         int id = DataBase.studentsDB.size() + 1;
 
-        Student student = new Student(id, name, lastName, groupId);
+        Student student = new Student(id, name, lastName);
         DataBase.studentsDB.add(student);
         return student;
     }
 
-    public Student getStudentById(int id) throws Exception {
+    @Override
+    public Student getById(int id) throws Exception {
         Student student = DataBase.studentsDB.stream()
                 .filter(s -> s.getId()==id)
                 .findFirst()
@@ -27,7 +29,9 @@ public class StudentService {
         return student;
     }
 
-    public List<Student> getAllStudents() {
+    @Override
+    public List<Student> getAll() {
         return DataBase.studentsDB;
     }
+
 }

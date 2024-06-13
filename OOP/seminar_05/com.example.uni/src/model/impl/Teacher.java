@@ -12,8 +12,11 @@ public class Teacher extends User {
         super(id, name, lastName);
     }
 
-    //убрать в сервис
-    public void addGroupId(int group) {
-        groups.add(group);
+    public List<Integer> getGroups() {
+        return groups;
+    }
+
+    public String toString() {
+        return String.format("Teacher[id=%s, name=%s, lastName=%s]", id, name, lastName);
     }
 }

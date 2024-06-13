@@ -1,7 +1,7 @@
-import view.StudentView;
+import view.MenuView;
 
 public class Main {
     public static void main(String[] args) {
-        new StudentView().start();
+        new MenuView().start();
     }
 }

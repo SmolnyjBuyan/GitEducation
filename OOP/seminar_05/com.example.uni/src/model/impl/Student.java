@@ -3,10 +3,23 @@ package model.impl;
 import model.User;
 
 public class Student extends User {
-    private int groupId;
 
-    public Student(int id, String name, String lastName, int groupId) {
+    private int groupNumber;
+
+    public Student(int id, String name, String lastName) {
         super(id, name, lastName);
-        this.groupId = groupId;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Student[id=%s, name=%s, lastName=%s]", id, name, lastName);
+    }
+
+    public int getGroupNumber() {
+        return groupNumber;
+    }
+
+    public void setGroupNumber(int groupNumber) {
+        this.groupNumber = groupNumber;
     }
 }
