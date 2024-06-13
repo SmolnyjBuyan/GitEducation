@@ -32,7 +32,7 @@ public class StudentView {
         }
     }
 
-    private Student createStudent(){
+    private void createStudent(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter student name: ");
         String name = scanner.nextLine();
@@ -43,17 +43,18 @@ public class StudentView {
         System.out.println("Enter group number: ");
         int groupId = scanner.nextInt();
 
-        return studentController.createStudent(name, lastName, groupId);
+        Student student = studentController.createStudent(name, lastName, groupId);
+        System.out.println(student);
     }
 
-    private Student getStudentById(){
+    private void getStudentById(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter student id: ");
         int id = scanner.nextInt();
-        return studentController.getStudentById(id);
+        System.out.println(studentController.getStudentById(id));
     }
 
-    private List<Student> getAllStudents() {
-        return studentController.getAllStudents();
+    private void getAllStudents() {
+        System.out.println(studentController.getAllStudents());
     }
 }

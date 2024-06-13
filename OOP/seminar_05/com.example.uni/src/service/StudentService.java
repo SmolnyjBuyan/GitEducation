@@ -11,6 +11,7 @@ public class StudentService {
         int id = DataBase.studentsDB.size() + 1;
 
         Student student = new Student(id, name, lastName, groupId);
+        DataBase.studentsDB.add(student);
         return student;
     }
 
