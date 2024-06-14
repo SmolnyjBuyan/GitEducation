@@ -26,7 +26,7 @@ public class TeacherService implements UserService<Teacher> {
                 .orElse(null);
 
         if (teacher == null) {
-            throw new Exception("Student not found");
+            throw new Exception("Teacher not found");
         }
         return teacher;
     }

@@ -47,10 +47,15 @@ public class StudentView extends UserView {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter student id: ");
         int id = scanner.nextInt();
-        System.out.println(studentController.getById(id));
+        Student student = studentController.getById(id);
+        if (student != null) {
+            System.out.println(student);
+        }
     }
 
     private void getAll() {
-        System.out.println(studentController.getAll());
+        for (Student student : studentController.getAll()) {
+            System.out.println(student);
+        }
     }
 }

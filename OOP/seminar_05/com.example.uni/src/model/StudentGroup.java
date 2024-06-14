@@ -19,4 +19,17 @@ public class StudentGroup {
     public int getNumber() {
         return number;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("StudentGroup number = ").append(number);
+        sb.append("\n\tteacher = ").append(teacher).append("\n");
+
+        for (Student s : studentList) {
+            sb.append("\t\t").append(s.toString()).append("\n");
+        }
+
+        return sb.toString();
+    }
 }

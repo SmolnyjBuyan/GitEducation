@@ -12,7 +12,7 @@ public class Student extends User {
 
     @Override
     public String toString() {
-        return String.format("Student[id=%s, name=%s, lastName=%s]", id, name, lastName);
+        return String.format("Student[id=%s, name=%s, lastName=%s, groupNumber=%s]", id, name, lastName, groupNumber);
     }
 
     public int getGroupNumber() {

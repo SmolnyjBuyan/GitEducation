@@ -17,6 +17,6 @@ public class Teacher extends User {
     }
 
     public String toString() {
-        return String.format("Teacher[id=%s, name=%s, lastName=%s]", id, name, lastName);
+        return String.format("Teacher[id=%s, name=%s, lastName=%s, groups=%s]", id, name, lastName, groups);
     }
 }

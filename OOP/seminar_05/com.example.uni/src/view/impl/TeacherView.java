@@ -1,6 +1,7 @@
 package view.impl;
 
 import controller.impl.TeacherController;
+import model.impl.Student;
 import model.impl.Teacher;
 import view.UserView;
 
@@ -48,10 +49,15 @@ public class TeacherView extends UserView {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter teacher id: ");
         int id = scanner.nextInt();
-        System.out.println(teacherController.getById(id));
+        Teacher teacher = teacherController.getById(id);
+        if (teacher != null) {
+            System.out.println(teacher);
+        }
     }
 
     private void getAll() {
-        System.out.println(teacherController.getAll());
+        for (Teacher teacher : teacherController.getAll()) {
+            System.out.println(teacher);
+        }
     }
 }
