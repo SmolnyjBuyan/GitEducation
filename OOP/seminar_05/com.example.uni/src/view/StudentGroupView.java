@@ -4,7 +4,6 @@ import controller.StudentGroupController;
 import controller.impl.StudentController;
 import controller.impl.TeacherController;
 import model.StudentGroup;
-import model.db.DataBase;
 import model.impl.Student;
 import model.impl.Teacher;
 
@@ -69,7 +68,7 @@ public class StudentGroupView {
                 }
             }
 
-            studentGroupController.createStudentGroup(number, teacherController.getById(teacherId), studentList);
+            System.out.println(studentGroupController.createStudentGroup(number, teacherController.getById(teacherId), studentList));
         }
     }
 

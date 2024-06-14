@@ -15,10 +15,6 @@ public class Student extends User {
         return String.format("Student[id=%s, name=%s, lastName=%s, groupNumber=%s]", id, name, lastName, groupNumber);
     }
 
-    public int getGroupNumber() {
-        return groupNumber;
-    }
-
     public void setGroupNumber(int groupNumber) {
         this.groupNumber = groupNumber;
     }
