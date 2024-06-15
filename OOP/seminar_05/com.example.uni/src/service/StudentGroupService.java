@@ -22,10 +22,10 @@ public class StudentGroupService {
             for (Student student : studentList) {
                 student.setGroupNumber(number);
             }
-            return new StudentGroup(number, teacher, studentList);
+            studentGroup = new StudentGroup(number, teacher, studentList);
+            DataBase.studentGroupsDB.add(studentGroup);
         }
 
-        DataBase.studentGroupsDB.add(studentGroup);
         return studentGroup;
     }
 

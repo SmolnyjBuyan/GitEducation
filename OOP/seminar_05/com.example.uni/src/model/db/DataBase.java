@@ -10,7 +10,6 @@ import java.util.List;
 
 public class DataBase {
     public static final List<Student> studentsDB = new ArrayList<>();
-
     public static final List<Teacher> teachersDB = new ArrayList<>();
     public static final List<StudentGroup> studentGroupsDB = new ArrayList<>();
 
@@ -32,6 +31,5 @@ public class DataBase {
         studentsDB.addAll(List.of(s1,s2,s3,s4,s5,s6,s7,s8));
 
         studentGroupsDB.add(new StudentGroupService().createStudentGroup(1, t1, List.of(s1,s2,s3)));
-
     }
 }

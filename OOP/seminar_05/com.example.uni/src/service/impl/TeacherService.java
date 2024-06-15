@@ -1,7 +1,6 @@
 package service.impl;
 
 import model.db.DataBase;
-import model.impl.Student;
 import model.impl.Teacher;
 import service.UserService;
 

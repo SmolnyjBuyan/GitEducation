@@ -1,7 +1,6 @@
 package controller.impl;
 
 import controller.UserController;
-import model.impl.Student;
 import model.impl.Teacher;
 import service.impl.TeacherService;
 
