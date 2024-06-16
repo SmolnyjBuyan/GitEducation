@@ -2,6 +2,7 @@ package lsp2;
 
 import lsp2.factory.OrderFactory;
 import lsp2.model.Order;
+import lsp2.model.OrderBonus;
 import lsp2.util.OrderCalculator;
 
 public class Main {
@@ -16,5 +17,9 @@ public class Main {
         }
 
         System.out.printf("Order sum %d", calculator.calcAmount());
-    }
+
+        Order order = new OrderBonus(1, 6);
+        System.out.println("\n" + order);
+        System.out.println(order.getAmount());
+}
 }
