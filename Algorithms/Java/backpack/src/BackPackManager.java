@@ -43,15 +43,15 @@ public class BackPackManager {
                 table[0][j].addItem(items.getFirst());
             }
         }
+        System.out.println(Arrays.toString(table[0]));
 
         for (int i = 1; i < table.length; i++) {
             for (int j = 0; j < table[0].length; j++) {
                 table[i][j] = new BackPack(j + 1);
-                int currentPrice;
 
                 if (table[i][j].getCapacity() - items.get(i).getWeight() > 0) {
                     table[i][j].addItem(items.get(i));
-                    for (Item item : table[i - 1][table[i][j].getCapacity() - items.get(i).getWeight()].getItems()) {
+                    for (Item item : table[i - 1][table[i][j].getCapacity() - items.get(i).getWeight() - 1].getItems()) {
                         table[i][j].addItem(item);
                     }
                 } else if (table[i][j].getCapacity() - items.get(i).getWeight() == 0) {
@@ -62,6 +62,7 @@ public class BackPackManager {
                     table[i][j] = table[i - 1][j];
                 }
             }
+            System.out.println(Arrays.toString(table[i]));
         }
         System.out.println(table[items.size() - 1][backPack.getCapacity() - 1]);
     }

@@ -5,10 +5,11 @@ public class Main {
         Item recorder = new Item("Магнитофон", 3000, 4);
         Item laptop = new Item("Ноутбук", 2000, 3);
         Item guitar = new Item("Гитара", 1500, 1);
+        Item iphone = new Item("Телефон", 2000, 1);
 
         BackPack backPack = new BackPack(4);
         BackPackManager backPackManager = new BackPackManager();
 
-        backPackManager.countMaxPossibleValue(List.of(guitar, recorder, laptop), backPack);
+        backPackManager.countMaxPossibleValue(List.of(guitar, recorder, laptop, iphone), backPack);
     }
 }
