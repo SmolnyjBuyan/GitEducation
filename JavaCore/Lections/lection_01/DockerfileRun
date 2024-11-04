@@ -1,0 +1,7 @@
+FROM openjdk:8
+COPY out /usr/myapp/out
+WORKDIR /usr/myapp
+CMD ["java", "-cp", "out", "org.example.Main"]
+
+
+

@@ -1,0 +1,9 @@
+services:
+  app:
+    image: openjdk:8
+    volumes:
+      - ./docs:/app/docs
+      - ./out:/app/out
+      - ./src:/app/src
+    working_dir: /app
+    command: javadoc -d docs -sourcepath src/main/java/ -cp out -subpackages org 

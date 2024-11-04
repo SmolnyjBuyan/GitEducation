@@ -1,0 +1,5 @@
+FROM openjdk:8
+COPY src /usr/myapp/src
+WORKDIR /usr/myapp
+RUN mkdir out
+CMD ["javac", "-sourcepath", "src/main/java", "-d", "out", "src/main/java/org/example/Main.java"]
