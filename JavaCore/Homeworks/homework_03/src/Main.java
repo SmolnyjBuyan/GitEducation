@@ -8,26 +8,55 @@ public class Main {
         LocalDate sample1 = LocalDate.of(1993, 10, 30);
         LocalDate sample2 = LocalDate.of(1993, 10, 29);
 
-        System.out.println(compare(sample1, sample2));
-        System.out.println(compare("1993-10-30", "1993-10-30"));
-    }
+        Employee andrey = new Employee(
+                "Kotov",
+                "Andrey",
+                "Andreevich",
+                LocalDate.of(1993, 10, 30),
+                "Developer",
+                100_000,
+                89997778866L);
 
-    public static boolean compare(LocalDate date1, LocalDate date2) {
-        return date1.equals(date2);
-    }
+        Employee vasiliy = new Employee(
+                "Mitinskiy",
+                "Vasiliy",
+                "Vasilievich",
+                LocalDate.of(1990, 4, 10),
+                "Developer",
+                150_000,
+                89996668866L);
 
-    public static boolean compare(String date1, String date2) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        formatter = formatter.withLocale(Locale.US);
+        Employee dmitriy = new Employee(
+                "Stolyarenko",
+                "Dmitriy",
+                "Aleksandrovich",
+                LocalDate.of(1993, 2, 26),
+                "Developer",
+                250_000,
+                89995465566L);
 
-        try {
-            LocalDate lDate1 = LocalDate.parse(date1, formatter);
-            LocalDate lDate2 = LocalDate.parse(date2, formatter);
-            return lDate1.equals(lDate2);
-        } catch (DateTimeParseException e) {
-            System.out.println(e.getMessage());
-        }
+        Employee oleg = new Employee(
+                "Prokopenko",
+                "Oleg",
+                "Aleksandrovich",
+                LocalDate.of(1970, 3, 6),
+                "Journalist",
+                150_000,
+                89996668866L);
 
-        return false;
+        Employee kirill = new Employee(
+                "Ivanov",
+                "Kirill",
+                "Anatolyevich",
+                LocalDate.of(1968, 1, 15),
+                "Editor",
+                80_000,
+                89996668866L);
+
+        andrey.info();
+        Employee[] employees = {andrey, vasiliy, dmitriy, oleg, kirill};
+
+        System.out.println(andrey.compare(sample1, sample2));
+        System.out.println(andrey.compare("1993-10-30", "1993-10-30"));
     }
 }
