@@ -1,7 +1,5 @@
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.Locale;
+import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
@@ -16,6 +14,11 @@ public class Main {
                 "Developer",
                 100_000,
                 89997778866L);
+
+        andrey.info();
+
+        System.out.println(andrey.compare(sample1, sample2));
+        System.out.println(andrey.compare("1993-10-30", "1993-10-30"));
 
         Employee vasiliy = new Employee(
                 "Mitinskiy",
@@ -53,10 +56,21 @@ public class Main {
                 80_000,
                 89996668866L);
 
-        andrey.info();
-        Employee[] employees = {andrey, vasiliy, dmitriy, oleg, kirill};
+        SuperVisor egor = new SuperVisor(
+                "Ruzhnikov",
+                "Egor",
+                "Aleksandrovich",
+                LocalDate.of(1965, 6, 15),
+                "Head",
+                500_000,
+                89993334455L);
 
-        System.out.println(andrey.compare(sample1, sample2));
-        System.out.println(andrey.compare("1993-10-30", "1993-10-30"));
+
+        Employee[] employees = {andrey, vasiliy, dmitriy, oleg, kirill, egor};
+        System.out.println("Before:");
+        Arrays.stream(employees).forEach(Employee::info);
+        SuperVisor.increaseSalary(employees, 5000);
+        System.out.println("After:");
+        Arrays.stream(employees).forEach(Employee::info);
     }
 }

@@ -1,6 +1,8 @@
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Arrays;
 import java.util.Locale;
 
 public class Employee {
@@ -11,6 +13,18 @@ public class Employee {
     private String position;
     private int salary;
     private long phoneNumber;
+
+    public int getSalary() {
+        return salary;
+    }
+
+    private void setSalary(int salary) {
+        this.salary = salary;
+    }
+
+    public int getAge() {
+        return Period.between(birthDate, LocalDate.now()).getYears();
+    }
 
     public Employee(String lastName, String firstName, String middleName,
                     LocalDate birthDate, String position, int salary, long phoneNumber) {
@@ -24,7 +38,7 @@ public class Employee {
     }
 
     public void info() {
-        System.out.println(toString());
+        System.out.println(this);
     }
 
     @Override
@@ -56,5 +70,9 @@ public class Employee {
         }
 
         return false;
+    }
+
+    protected void increaseSalary(int amount) {
+        salary += amount;
     }
 }
