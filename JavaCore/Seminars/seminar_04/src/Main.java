@@ -6,7 +6,7 @@ public class Main {
                 { 3, 4, 6 , 7, 7 },
                 { 3, 4, 6 , 7, 7 },
                 { 3, 4, 6 , 7, 7 },
-                { 3, 4, 6 , 7 }};
+                { 3, 4, 6 , 7, }};
 
         System.out.println(sumOfComponents(arr));
     }
@@ -15,14 +15,12 @@ public class Main {
         int sum = 0;
 
         if (array.length != 5) {
-            throw new ColumnConvertException
-                    ("array.length must be equal to 5, but in your case it equals to " + array.length);
+            throw new ColumnConvertException(array);
         }
 
         for (int i = 0; i < array.length; i++) {
             if (array[i].length != 5)  {
-                throw new RowConvertException
-                        ("array[" + i + "].length must be equal to 5, but in your case it equals to " + array[i].length);
+                throw new RowConvertException(array[i], i);
             }
             for (int j = 0; j < array[i].length; j++) {
                 sum += array[i][j];
