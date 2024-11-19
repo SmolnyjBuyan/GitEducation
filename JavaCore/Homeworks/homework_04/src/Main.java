@@ -34,6 +34,7 @@ public class Main {
 //        confirmOrder(viktor, mars, 4);
 
         System.out.println(Arrays.toString(orders));
+
     }
 
     public static Order makeOrder(Customer customer, Product product, int productAmount) {
@@ -51,7 +52,6 @@ public class Main {
     public static boolean isExist(Product product) {
         return Arrays.asList(products).contains(product);
     }
-
 
     public static void confirmOrder(Customer customer, Product product, int productAmount) {
         try {

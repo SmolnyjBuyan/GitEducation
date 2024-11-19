@@ -22,4 +22,19 @@ public class Customer {
                 ", firstName='" + firstName + '\'' +
                 '}';
     }
+
+    public enum Gender {
+
+        MALE("Мужской"), FEMALE("Женский");
+
+        private final String russianTitle;
+
+        Gender(String title) {
+            russianTitle = title;
+        }
+
+        public String getRussianTitle() {
+            return russianTitle;
+        }
+    }
 }
