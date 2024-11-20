@@ -2,6 +2,9 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -44,13 +47,12 @@ public class Main {
         Path file = Paths.get(filePath);
         Path fileToAppend = Paths.get(fileToAppendPath);
 
-        if (!Files.isRegularFile(file)) {
-            System.out.println(file + " does not exist");
-            return;
-        }
-        if (!Files.isRegularFile(fileToAppend)) {
-            System.out.println(file + " does not exist");
-            return;
+        List<Path> paths = Arrays.asList(file, fileToAppend);
+        for (Path path : paths) {
+            if (!Files.isRegularFile(path)) {
+                System.out.println(file + " does not exist");
+                return;
+            }
         }
 
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath, true));
