@@ -1,6 +1,7 @@
 package org.example;
 
 import antlr.collections.List;
+import com.mysql.cj.ServerPreparedQuery;
 import javafx.event.Event;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -14,7 +15,13 @@ public class Main {
     public static void main(String[] args) {
         DataBase dataBase = new DataBase();
 
-//        dataBase.create(new Course("GO", 300));
+        dataBase.create(new Course("GO", 300));
+        dataBase.create(new Course("Java", 250));
+        dataBase.create(new Course("Python", 200));
+
+        dataBase.getCourses().forEach(System.out::println);
+
+
         Course courseToUpdate = dataBase.getCourseById(2);
 
         System.out.println(courseToUpdate);
@@ -26,8 +33,8 @@ public class Main {
 
         dataBase.getCourses().forEach(System.out::println);
 
-        Course courseToRemove = dataBase.getCourseById(4);
-//        dataBase.remove(courseToRemove);
+        Course courseToRemove = dataBase.getCourseById(3);
+        dataBase.remove(courseToRemove);
         dataBase.getCourses().forEach(System.out::println);
 
 

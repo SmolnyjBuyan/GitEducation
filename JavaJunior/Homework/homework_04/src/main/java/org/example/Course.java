@@ -1,10 +1,16 @@
 package org.example;
 
+import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "COURSES")
 public class Course {
     private Long id;
 
     private String title;
+
     private int durationInDays;
 
     public Course() {
@@ -15,6 +21,8 @@ public class Course {
         this.durationInDays = durationInDays;
     }
 
+    @Id
+    @GeneratedValue
     public Long getId() {
         return id;
     }
