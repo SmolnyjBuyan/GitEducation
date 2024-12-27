@@ -1,0 +1,11 @@
+<hibernate-mapping package="org.example">
+
+    <class name="Course" table="Courses">
+        <id name="id" column="courseId">
+            <generator class="increment"/>
+        </id>
+        <property name="title"/>
+        <property name="durationInDays"/>
+    </class>
+
+</hibernate-mapping>
