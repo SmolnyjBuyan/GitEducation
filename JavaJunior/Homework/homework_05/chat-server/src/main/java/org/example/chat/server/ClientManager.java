@@ -31,12 +31,47 @@ public class ClientManager implements Runnable {
         while (socket.isConnected()) {
             try {
                 String messageFromClient = bufferedReader.readLine();
-                broadcastMessage(name + ": " + messageFromClient);
+                sendMessage(messageFromClient);
             } catch (IOException e) {
                 closeEverything();
                 break;
             }
         }
+    }
+
+    private void sendMessage(String message) {
+        if (message.startsWith("@")) {
+            String[] parsedMessage = message.substring(1).split(" ", 2);
+            String clientName = parsedMessage[0];
+            message = parsedMessage[1];
+            if (!sendPersonalMessage(name + ": " + message, clientName)) {
+                try {
+                    this.bufferedWriter.write("Сервер: Такого пользователя нет в чате!");
+                    this.bufferedWriter.newLine();
+                    this.bufferedWriter.flush();
+                } catch (IOException e) {
+                    closeEverything();
+                }
+            }
+        } else {
+            broadcastMessage(name + ": " + message);
+        }
+    }
+
+    private boolean sendPersonalMessage(String message, String toWhom) {
+        for (ClientManager client : clients) {
+            if (client.name.equals(toWhom)) {
+                try {
+                    client.bufferedWriter.write(message);
+                    client.bufferedWriter.newLine();
+                    client.bufferedWriter.flush();
+                    return true;
+                } catch (IOException e) {
+                    closeEverything();
+                }
+            }
+        }
+        return false;
     }
 
     private void broadcastMessage(String message) {
@@ -69,5 +104,9 @@ public class ClientManager implements Runnable {
         clients.remove(this);
         System.out.println(name + " покинул чат");
         broadcastMessage(name + " покинул чат");
+    }
+
+    private boolean checkForTag(String message){
+        return false;
     }
 }
