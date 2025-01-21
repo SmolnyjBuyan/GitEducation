@@ -31,7 +31,7 @@ public class ClientManager implements Runnable {
         while (socket.isConnected()) {
             try {
                 String messageFromClient = bufferedReader.readLine();
-                broadcastMessage(messageFromClient);
+                broadcastMessage(name + ": " + messageFromClient);
             } catch (IOException e) {
                 closeEverything();
                 break;
