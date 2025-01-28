@@ -1,30 +1,38 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 
 public class GameWindow extends JFrame {
-    private int WEIGHT = 400;
+    private int WIDTH = 400;
     private int HEIGHT = 400;
 
     private JButton exit = new JButton("Exit");
     private JButton newGame = new JButton("New game");;
 
+    Map map;
+    SettingsWindow settings;
+
     public GameWindow() {
         super("TicTacToe");
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(WEIGHT, HEIGHT);
+        setSize(WIDTH, HEIGHT);
         setLocationRelativeTo(null);
-
+        setResizable(false);
         add(new JLabel(new ImageIcon(new ImageIcon("src/main/resources/Tic_tac_toe.svg.png").getImage()
                 .getScaledInstance(380, 325, Image.SCALE_DEFAULT))));
 
+        Map map = new Map();
+
+
         exit.addActionListener(e -> System.exit(0));
-        JPanel menu = new JPanel();
+        JPanel menu = new JPanel(new GridLayout(1, 2));
         menu.add(newGame);
         menu.add(exit);
-
         add(menu, BorderLayout.SOUTH);
+//        add(map);
         setVisible(true);
+
+        settings = new SettingsWindow(this);
+        settings.setVisible(true);
     }
 }
