@@ -22,9 +22,10 @@ public class GameWindow extends JFrame {
                 .getScaledInstance(380, 325, Image.SCALE_DEFAULT))));
 
         Map map = new Map();
-
+        settings = new SettingsWindow(this);
 
         exit.addActionListener(e -> System.exit(0));
+        newGame.addActionListener(e -> settings.setVisible(true));
         JPanel menu = new JPanel(new GridLayout(1, 2));
         menu.add(newGame);
         menu.add(exit);
@@ -32,7 +33,7 @@ public class GameWindow extends JFrame {
 //        add(map);
         setVisible(true);
 
-        settings = new SettingsWindow(this);
-        settings.setVisible(true);
+
+
     }
 }
