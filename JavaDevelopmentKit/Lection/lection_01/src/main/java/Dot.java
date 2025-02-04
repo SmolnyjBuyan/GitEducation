@@ -1,5 +1,5 @@
 public enum Dot {
-    PLAYER(1), OPPONENT(2), EMPTY(3);
+    PLAYER(1), OPPONENT(2), EMPTY(0);
 
     private int value;
     Dot(int value) {

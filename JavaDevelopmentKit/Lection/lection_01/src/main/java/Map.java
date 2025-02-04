@@ -2,8 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Random;
 
 public class Map extends JPanel {
+    private static final Random RANDOM = new Random();
     private int panelHeight;
     private int panelWidth;
     private int cellHeight;
@@ -69,5 +71,22 @@ public class Map extends JPanel {
                 field[i][j] = Dot.EMPTY;
             }
         }
+    }
+
+    private boolean isValidCell(int x, int y) {
+        return x >= 0 && x < fieldSizeX && y >= 0 && y < fieldSizeY;
+    }
+
+    private boolean isEmptyCell(int x, int y) {
+        return field[y][x] == Dot.EMPTY;
+    }
+
+    private void aiTurn() {
+        int x, y;
+        do {
+            x = RANDOM.nextInt(fieldSizeX);
+            y = RANDOM.nextInt(fieldSizeY);
+        } while (!isEmptyCell(x, y));
+        field[y][x] = Dot.OPPONENT;
     }
 }
