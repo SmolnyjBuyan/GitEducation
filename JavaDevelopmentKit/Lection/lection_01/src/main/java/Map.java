@@ -6,6 +6,7 @@ import java.util.Random;
 
 public class Map extends JPanel {
     private static final Random RANDOM = new Random();
+    public static final int DOT_PADDING = 3;
     private int panelHeight;
     private int panelWidth;
     private int cellHeight;
@@ -61,6 +62,42 @@ public class Map extends JPanel {
         for (int i = 1; i < fieldSizeY; i++) {
             int y = cellHeight * i;
             g.drawLine(0, y, panelWidth, y);
+        }
+
+        for (int y = 0; y < fieldSizeY; y++) {
+            for (int x = 0; x < fieldSizeX; x++) {
+                if (field[y][x] == Dot.EMPTY) continue;
+
+                if (field[y][x] == Dot.PLAYER) {
+//                    g.setColor(Color.BLUE);
+//                    Graphics2D g2d = (Graphics2D) g;
+//                    g2d.setStroke(new BasicStroke(3));
+//                    g2d.setRenderingHint
+//                            (RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+//                    g.drawOval(cellWidth * x + DOT_PADDING, cellHeight * y + DOT_PADDING,
+//                            cellWidth - DOT_PADDING * 2, cellHeight - DOT_PADDING * 2);
+                    g.setColor(Color.RED);
+                    Graphics2D g2d = (Graphics2D) g;
+                    g2d.setStroke(new BasicStroke(3));
+                    g2d.setRenderingHint
+                            (RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                    g.drawLine(cellWidth * x + DOT_PADDING, cellHeight * y + DOT_PADDING,
+                            cellWidth * (x + 1) - DOT_PADDING, cellHeight * (y + 1) - DOT_PADDING);
+                    g.drawLine(cellWidth * x + DOT_PADDING, cellHeight * (y + 1) - DOT_PADDING,
+                            cellWidth * (x + 1) - DOT_PADDING, cellHeight * y + DOT_PADDING);
+                } else if (field[y][x] == Dot.OPPONENT) {
+//                    g.setColor(Color.RED);
+//                    Graphics2D g2d = (Graphics2D) g;
+//                    g2d.setStroke(new BasicStroke(3));
+//                    g2d.setRenderingHint
+//                            (RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+//                    g.drawLine(cellWidth * x + DOT_PADDING, cellHeight * y + DOT_PADDING,
+//                            cellWidth * (x + 1), cellWidth * (y + 1));
+                } else {
+                    throw new RuntimeException("Unexpected value " + field[y][x] +
+                            " in cell: x=" + x + " y=" + y);
+                }
+            }
         }
 
     }
