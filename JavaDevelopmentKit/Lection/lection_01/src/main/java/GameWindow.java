@@ -30,12 +30,12 @@ public class GameWindow extends JFrame {
         menu.add(newGame);
         menu.add(exit);
         add(menu, BorderLayout.SOUTH);
+        map = new Map();
         setVisible(true);
         }
 
     public void startNewGame(int mode, int fSzX, int fSzY, int wLen){
         welcomeImage.setVisible(false);
-        map = new Map();
         add(map);
         map.startNewGame(mode, fSzX, fSzY, wLen);
     }

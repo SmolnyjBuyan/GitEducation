@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
 public class Map extends JPanel {
@@ -16,12 +17,15 @@ public class Map extends JPanel {
     private Dot[][] field;
 
     private GameOverStatus gameOverStatus;
+    private boolean isInitialized;
 
 
     void startNewGame(int mode, int fSzX, int fSzY, int wLen) {
         fieldSizeX = fSzX;
         fieldSizeY = fSzY;
         initMap();
+        gameOverStatus = null;
+        isInitialized = true;
         repaint();
     }
 
@@ -32,35 +36,53 @@ public class Map extends JPanel {
                 update(e);
             }
         });
+        isInitialized = false;
     }
 
     private void update(MouseEvent e) {
-        playerTurn(e);
+        if (gameOverStatus != null || !isInitialized) return;
+        if (!playerTurn(e)) return;
         repaint();
-        if (checkWin(Dot.PLAYER)) System.out.println("GOOOOAAL");
-//        if (isGameOver(GameOverStatus.STATE_WIN_PLAYER)) return;
+        if (isGameOver(Dot.PLAYER)) return;
         aiTurn();
         repaint();
-//        isGameOver(GameOverStatus.STATE_WIN_OPPONENT);
+        isGameOver(Dot.OPPONENT);
     }
 
-    private void playerTurn(MouseEvent e){
+    private boolean playerTurn(MouseEvent e){
         int cellX = e.getX() / cellWidth;
         int cellY = e.getY() / cellHeight;
         System.out.printf("x = %d, y = %d" + System.lineSeparator(), cellX, cellY);
-        if (!isValidCell(cellX, cellY) || !isEmptyCell(cellX, cellY)) return;
+
+        if (!isValidCell(cellX, cellY) || !isEmptyCell(cellX, cellY)) return false;
         field[cellY][cellX] = Dot.PLAYER;
+        return true;
     }
 
     private boolean isGameOver(Dot dot) {
         if (checkWin(dot)) {
-            this.gameOverStatus = dot.getGameOverStatus();
+            gameOverStatus = dot.getGameOverStatus();
             return true;
         } else if (isMapFull()) {
-            this.gameOverStatus = GameOverStatus.STATE_DRAW;
+            gameOverStatus = GameOverStatus.STATE_DRAW;
             return true;
         }
         return false;
+    }
+
+    private void showMessageGameOver(Graphics g) {
+        g.setFont(new Font("Arial", Font.BOLD, 40));
+        Graphics2D g2d = (Graphics2D) g;
+        FontMetrics fm = g2d.getFontMetrics();
+        Rectangle2D r = fm.getStringBounds(gameOverStatus.getMessage(), g2d);
+        int x = (getWidth() - (int) r.getWidth()) / 2;
+        int y = (getHeight() - fm.getHeight()) / 2 + fm.getAscent();
+        g.setColor(Color.DARK_GRAY);
+        int rectOffset = (int) (x * 0.05);
+        g.fillRect(x - rectOffset, (getHeight() - fm.getHeight()) / 2,
+                (int) (r.getWidth() + (rectOffset * 2) ), (int) r.getHeight());
+        g.setColor(Color.ORANGE);
+        g.drawString(gameOverStatus.getMessage(), x, y);
     }
 
     @Override
@@ -70,6 +92,8 @@ public class Map extends JPanel {
     }
 
     private void render(Graphics g) {
+        if (!isInitialized) return;
+
         g.setColor(Color.BLACK);
         panelHeight = getHeight();
         panelWidth = getWidth();
@@ -116,6 +140,9 @@ public class Map extends JPanel {
             }
         }
 
+        if (gameOverStatus != null) {
+            showMessageGameOver(g);
+        }
     }
 
     private void initMap() {
