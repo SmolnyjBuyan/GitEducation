@@ -71,7 +71,7 @@ public class Map extends JPanel {
     }
 
     private void showMessageGameOver(Graphics g) {
-        g.setFont(new Font("Arial", Font.BOLD, 40));
+        g.setFont(new Font("Arial", Font.BOLD, getHeight() / 8));
         Graphics2D g2d = (Graphics2D) g;
         FontMetrics fm = g2d.getFontMetrics();
         Rectangle2D r = fm.getStringBounds(gameOverStatus.getMessage(), g2d);
