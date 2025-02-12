@@ -2,11 +2,11 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GameWindow extends JFrame {
-    private int WIDTH = 400;
-    private int HEIGHT = 400;
+    private int WIDTH = 800;
+    private int HEIGHT = 800;
 
-    private JButton exit = new JButton("Exit");
-    private JButton newGame = new JButton("New game");;
+    private JButton exit = new JButton("EXIT");
+    private JButton newGame = new JButton("NEW GAME");;
 
     private final JLabel welcomeImage = new JLabel(new ImageIcon
             (new ImageIcon("src/main/resources/Tic_tac_toe.svg.png").getImage()
@@ -22,6 +22,8 @@ public class GameWindow extends JFrame {
         setResizable(false);
         add(welcomeImage);
         settings = new SettingsWindow(this);
+        exit.setFont(new Font("Arial", Font.BOLD, 20));
+        newGame.setFont(new Font("Arial", Font.BOLD, 20));
         exit.addActionListener(e -> System.exit(0));
         newGame.addActionListener(e -> settings.setVisible(true));
         JPanel menu = new JPanel(new GridLayout(1, 2));

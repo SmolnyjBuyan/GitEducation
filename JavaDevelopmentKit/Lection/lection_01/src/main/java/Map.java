@@ -14,7 +14,7 @@ public class Map extends JPanel {
     private int cellWidth;
     private int fieldSizeX;
     private int fieldSizeY;
-    private Dot[][] field;
+    private Cell[][] field;
 
     private GameOverStatus gameOverStatus;
     private boolean isInitialized;
@@ -41,27 +41,39 @@ public class Map extends JPanel {
 
     private void update(MouseEvent e) {
         if (gameOverStatus != null || !isInitialized) return;
-        if (!playerTurn(e)) return;
+        int x = e.getX() / cellWidth;
+        int y = e.getY() / cellHeight;
+
+        if (!playerTurn(field[y][x])) return;
         repaint();
-        if (isGameOver(Dot.PLAYER)) return;
-        aiTurn();
+        if (isGameOver(field[y][x])) return;
+
+        Cell aiTurn = aiTurn();
         repaint();
-        isGameOver(Dot.OPPONENT);
+        isGameOver(aiTurn);
     }
 
-    private boolean playerTurn(MouseEvent e){
-        int cellX = e.getX() / cellWidth;
-        int cellY = e.getY() / cellHeight;
-        System.out.printf("x = %d, y = %d" + System.lineSeparator(), cellX, cellY);
-
-        if (!isValidCell(cellX, cellY) || !isEmptyCell(cellX, cellY)) return false;
-        field[cellY][cellX] = Dot.PLAYER;
+    private boolean playerTurn(Cell cell){
+        System.out.printf("x = %d, y = %d" + System.lineSeparator(), cell.getX(), cell.getY());
+        if (!isValidCell(cell.getX(), cell.getY()) || !cell.isEmpty()) return false;
+        cell.setState(CellState.PLAYER);
         return true;
     }
 
-    private boolean isGameOver(Dot dot) {
-        if (checkWin(dot)) {
-            gameOverStatus = dot.getGameOverStatus();
+    private boolean isGameOver(Cell cell) {
+        if (checkWin(cell)) {
+            gameOverStatus = cell.getState().getGameOverStatus();
+            return true;
+        } else if (isMapFull()) {
+            gameOverStatus = GameOverStatus.STATE_DRAW;
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isGameOver(Cell cell, MouseEvent e) {
+        if (checkWin(cell)) {
+            gameOverStatus = cell.getState().getGameOverStatus();
             return true;
         } else if (isMapFull()) {
             gameOverStatus = GameOverStatus.STATE_DRAW;
@@ -112,9 +124,9 @@ public class Map extends JPanel {
 
         for (int y = 0; y < fieldSizeY; y++) {
             for (int x = 0; x < fieldSizeX; x++) {
-                if (field[y][x] == Dot.EMPTY) continue;
+                if (field[y][x].isEmpty()) continue;
 
-                if (field[y][x] == Dot.PLAYER) {
+                if (field[y][x].isPlayer()) {
                     g.setColor(Color.BLUE);
                     Graphics2D g2d = (Graphics2D) g;
                     g2d.setStroke(new BasicStroke(3));
@@ -123,7 +135,7 @@ public class Map extends JPanel {
                     g.drawOval(cellWidth * x + DOT_PADDING, cellHeight * y + DOT_PADDING,
                             cellWidth - DOT_PADDING * 2, cellHeight - DOT_PADDING * 2);
 
-                } else if (field[y][x] == Dot.OPPONENT) {
+                } else if (field[y][x].isOpponent()) {
                     g.setColor(Color.RED);
                     Graphics2D g2d = (Graphics2D) g;
                     g2d.setStroke(new BasicStroke(3));
@@ -146,11 +158,10 @@ public class Map extends JPanel {
     }
 
     private void initMap() {
-        field = new Dot[fieldSizeY][fieldSizeX];
-
-        for (int i = 0; i < fieldSizeY; i++) {
-            for (int j = 0; j < fieldSizeX; j++) {
-                field[i][j] = Dot.EMPTY;
+        field = new Cell[fieldSizeY][fieldSizeX];
+        for (int y = 0; y < fieldSizeY; y++) {
+            for (int x = 0; x < fieldSizeX; x++) {
+                field[y][x] = new Cell(x, y);
             }
         }
     }
@@ -159,55 +170,52 @@ public class Map extends JPanel {
         return x >= 0 && x < fieldSizeX && y >= 0 && y < fieldSizeY;
     }
 
-    private boolean isEmptyCell(int x, int y) {
-        return field[y][x] == Dot.EMPTY;
-    }
-
-    private void aiTurn() {
+    private Cell aiTurn() {
         int x, y;
         do {
             x = RANDOM.nextInt(fieldSizeX);
             y = RANDOM.nextInt(fieldSizeY);
-        } while (!isEmptyCell(x, y));
-        field[y][x] = Dot.OPPONENT;
+        } while (!field[y][x].isEmpty());
+        field[y][x].setState(CellState.OPPONENT);
+        return field[y][x];
     }
 
-    private boolean checkWin(Dot dot) {
+    private boolean checkWin(Cell cell) {
         for (int y = 0; y < fieldSizeY; y++) {
-            if (checkRow(y, dot)) return true;
+            if (checkRow(y, cell)) return true;
         }
 
         for (int x = 0; x < fieldSizeX; x++) {
-            if (checkColumn(x, dot)) return true;
+            if (checkColumn(x, cell)) return true;
         }
 
-        return checkFirstDiagonal(dot) || checkSecondDiagonal(dot);
+        return checkFirstDiagonal(cell) || checkSecondDiagonal(cell);
     }
 
-    private boolean checkRow(int y, Dot dot) {
+    private boolean checkRow(int y, Cell cell) {
         for (int x = 0; x < fieldSizeX; x++) {
-            if (field[y][x] != dot) return false;
+            if (field[y][x].getState() != cell.getState()) return false;
         }
         return true;
     }
 
-    private boolean checkColumn(int x, Dot dot) {
+    private boolean checkColumn(int x, Cell cell) {
         for (int y = 0; y < fieldSizeY; y++) {
-            if (field[y][x] != dot) return false;
+            if (field[y][x].getState() != cell.getState()) return false;
         }
         return true;
     }
 
-    private boolean checkSecondDiagonal(Dot dot) {
+    private boolean checkSecondDiagonal(Cell cell) {
         for (int y = fieldSizeY - 1, x = 0; y >= 0; y--, x++) {
-            if (field[y][x] != dot) return false;
+            if (field[y][x].getState() != cell.getState()) return false;
         }
         return true;
     }
 
-    private boolean checkFirstDiagonal(Dot dot) {
+    private boolean checkFirstDiagonal(Cell cell) {
         for (int y = 0, x = 0; y < fieldSizeY; y++, x++) {
-            if (field[y][x] != dot) return false;
+            if (field[y][x].getState() != cell.getState()) return false;
         }
         return true;
     }
@@ -215,9 +223,36 @@ public class Map extends JPanel {
     private boolean isMapFull() {
         for (int i = 0; i < fieldSizeY; i++) {
             for (int j = 0; j < fieldSizeX; j++) {
-                if (field[i][j] == Dot.EMPTY) return false;
+                if (field[i][j].isEmpty()) return false;
             }
         }
         return true;
+    }
+
+    private boolean checkWin(Cell cell, int winLength) {
+        if (checkRow(cell, winLength)) return true;
+
+        for (int i = 0; i < fieldSizeX; i++) {
+            if (checkColumn(i, cell)) return true;
+        }
+
+        return checkFirstDiagonal(cell) || checkSecondDiagonal(cell);
+    }
+
+    private boolean checkRow(Cell cell, int winLength) {
+        int count = 1;
+
+        int i = cell.getX() + 1;
+        while (i < fieldSizeY && field[cell.getY()][i].equals(cell)) {
+            count++;
+            i++;
+        }
+        i = cell.getX() - 1;
+        while (i >= 0 && field[cell.getY()][i].equals(cell)) {
+            count++;
+            i++;
+        }
+
+        return count == winLength;
     }
 }
