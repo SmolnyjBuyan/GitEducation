@@ -15,7 +15,7 @@ public class Map extends JPanel {
     private int fieldSizeX;
     private int fieldSizeY;
     private Cell[][] field;
-
+    private int winLength;
     private GameOverStatus gameOverStatus;
     private boolean isInitialized;
 
@@ -23,6 +23,7 @@ public class Map extends JPanel {
     void startNewGame(int mode, int fSzX, int fSzY, int wLen) {
         fieldSizeX = fSzX;
         fieldSizeY = fSzY;
+        winLength = wLen;
         initMap();
         gameOverStatus = null;
         isInitialized = true;
@@ -61,18 +62,7 @@ public class Map extends JPanel {
     }
 
     private boolean isGameOver(Cell cell) {
-        if (checkWin(cell)) {
-            gameOverStatus = cell.getState().getGameOverStatus();
-            return true;
-        } else if (isMapFull()) {
-            gameOverStatus = GameOverStatus.STATE_DRAW;
-            return true;
-        }
-        return false;
-    }
-
-    private boolean isGameOver(Cell cell, MouseEvent e) {
-        if (checkWin(cell)) {
+        if (checkWin(cell, winLength)) {
             gameOverStatus = cell.getState().getGameOverStatus();
             return true;
         } else if (isMapFull()) {
@@ -180,46 +170,6 @@ public class Map extends JPanel {
         return field[y][x];
     }
 
-    private boolean checkWin(Cell cell) {
-        for (int y = 0; y < fieldSizeY; y++) {
-            if (checkRow(y, cell)) return true;
-        }
-
-        for (int x = 0; x < fieldSizeX; x++) {
-            if (checkColumn(x, cell)) return true;
-        }
-
-        return checkFirstDiagonal(cell) || checkSecondDiagonal(cell);
-    }
-
-    private boolean checkRow(int y, Cell cell) {
-        for (int x = 0; x < fieldSizeX; x++) {
-            if (field[y][x].getState() != cell.getState()) return false;
-        }
-        return true;
-    }
-
-    private boolean checkColumn(int x, Cell cell) {
-        for (int y = 0; y < fieldSizeY; y++) {
-            if (field[y][x].getState() != cell.getState()) return false;
-        }
-        return true;
-    }
-
-    private boolean checkSecondDiagonal(Cell cell) {
-        for (int y = fieldSizeY - 1, x = 0; y >= 0; y--, x++) {
-            if (field[y][x].getState() != cell.getState()) return false;
-        }
-        return true;
-    }
-
-    private boolean checkFirstDiagonal(Cell cell) {
-        for (int y = 0, x = 0; y < fieldSizeY; y++, x++) {
-            if (field[y][x].getState() != cell.getState()) return false;
-        }
-        return true;
-    }
-
     private boolean isMapFull() {
         for (int i = 0; i < fieldSizeY; i++) {
             for (int j = 0; j < fieldSizeX; j++) {
@@ -232,27 +182,78 @@ public class Map extends JPanel {
     private boolean checkWin(Cell cell, int winLength) {
         if (checkRow(cell, winLength)) return true;
 
-        for (int i = 0; i < fieldSizeX; i++) {
-            if (checkColumn(i, cell)) return true;
-        }
+        if (checkColumn(cell, winLength)) return true;
 
-        return checkFirstDiagonal(cell) || checkSecondDiagonal(cell);
+        return checkFirstDiagonal(cell, winLength) || checkSecondDiagonal(cell, winLength);
     }
 
     private boolean checkRow(Cell cell, int winLength) {
         int count = 1;
 
         int i = cell.getX() + 1;
-        while (i < fieldSizeY && field[cell.getY()][i].equals(cell)) {
+        while (i < fieldSizeX && field[cell.getY()][i].equals(cell)) {
             count++;
             i++;
         }
         i = cell.getX() - 1;
         while (i >= 0 && field[cell.getY()][i].equals(cell)) {
             count++;
-            i++;
+            i--;
         }
 
+        return count == winLength;
+    }
+
+    private boolean checkColumn(Cell cell, int winLength) {
+        int count = 1;
+        int y = cell.getY() + 1;
+        while (y < fieldSizeY && field[y][cell.getX()].equals(cell)) {
+            count++;
+            y++;
+        }
+        y = cell.getY() - 1;
+        while (y >= 0 && field[y][cell.getX()].equals(cell)) {
+            count++;
+            y--;
+        }
+        return count == winLength;
+    }
+
+    private boolean checkFirstDiagonal(Cell cell, int winLength) {
+        int count = 1;
+        int x = cell.getX() + 1;
+        int y = cell.getY() + 1;
+        while (y < fieldSizeY && x < fieldSizeX && field[y][x].equals(cell)) {
+            count++;
+            x++;
+            y++;
+        }
+        x = cell.getX() - 1;
+        y = cell.getY() - 1;
+        while (y >= 0 && x >= 0 && field[y][x].equals(cell)) {
+            count++;
+            x--;
+            y--;
+        }
+        return count == winLength;
+    }
+
+    private boolean checkSecondDiagonal(Cell cell, int winLength) {
+        int count = 1;
+        int x = cell.getX() + 1;
+        int y = cell.getY() - 1;
+        while (y >= 0 && x < fieldSizeX && field[y][x].equals(cell)) {
+            count++;
+            x++;
+            y--;
+        }
+        x = cell.getX() - 1;
+        y = cell.getY() + 1;
+        while (y < fieldSizeY && x >= 0 && field[y][x].equals(cell)) {
+            count++;
+            x--;
+            y++;
+        }
         return count == winLength;
     }
 }

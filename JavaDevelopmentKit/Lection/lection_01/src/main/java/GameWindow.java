@@ -8,9 +8,7 @@ public class GameWindow extends JFrame {
     private JButton exit = new JButton("EXIT");
     private JButton newGame = new JButton("NEW GAME");;
 
-    private final JLabel welcomeImage = new JLabel(new ImageIcon
-            (new ImageIcon("src/main/resources/Tic_tac_toe.svg.png").getImage()
-                    .getScaledInstance(380, 325, Image.SCALE_DEFAULT)));;
+    private final JLabel welcomeImage;
     private Map map;
     private final SettingsWindow settings;
 
@@ -18,6 +16,9 @@ public class GameWindow extends JFrame {
         super("TicTacToe");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(WIDTH, HEIGHT);
+        welcomeImage = new JLabel(new ImageIcon
+                (new ImageIcon("src/main/resources/Tic_tac_toe.svg.png").getImage()
+                        .getScaledInstance((int) (getWidth() * 0.9), (int) (getHeight() * 0.9), Image.SCALE_DEFAULT)));
         setLocationRelativeTo(null);
         setResizable(false);
         add(welcomeImage);

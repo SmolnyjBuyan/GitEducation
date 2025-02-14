@@ -24,7 +24,7 @@ public class SettingsWindow extends JFrame {
             setVisible(false);
         });
         btn5x5.addActionListener(e -> {
-            gameWindow.startNewGame(0, 5,5, 3);
+            gameWindow.startNewGame(0, 5,5, 4);
             setVisible(false);
         });
     }
