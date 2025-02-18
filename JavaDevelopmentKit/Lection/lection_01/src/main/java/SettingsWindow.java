@@ -2,16 +2,20 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class SettingsWindow extends JFrame {
-    public static final int HEIGHT = 400;
-    public static final int WIDTH = 350;
+    private static final int HEIGHT = 400;
+    private static final int WIDTH = 350;
+    private static final int MIN_FIELD_SIZE = 3;
+    private static final int MAX_FIELD_SIZE = 10;
+
 
     SettingsWindow(GameWindow gameWindow) {
-        setLayout(new GridLayout(3,1));
+        setLayout(new BoxLayout(getContentPane(),BoxLayout.Y_AXIS));
         setSize(WIDTH, HEIGHT);
         setLocationRelativeTo(gameWindow);
-
 
         StylizedRadioButton btn1P = new StylizedRadioButton("1 PLAYER", true);
         StylizedRadioButton btn2P = new StylizedRadioButton("2 PLAYERS");
@@ -21,35 +25,36 @@ public class SettingsWindow extends JFrame {
         StylizedPanel gameModeButtonPanel = new StylizedPanel(new GridLayout(1, 2), "GAME MODE");
         gameModeButtonPanel.add(btn1P);
         gameModeButtonPanel.add(btn2P);
-        add(gameModeButtonPanel);
 
-//        StylizedRadioButton btn3x3 = new StylizedRadioButton("3x3", true);
-//        StylizedRadioButton btn5x5 = new StylizedRadioButton("5x5");
-//        ButtonGroup fieldSizeButtonGroup = new ButtonGroup();
-//        fieldSizeButtonGroup.add(btn3x3);
-//        fieldSizeButtonGroup.add(btn5x5);
-//        StylizedButtonPanel fieldSizeButtonPanel = new StylizedButtonPanel(new GridLayout(1, 2), "FIELD SIZE");
-//        fieldSizeButtonPanel.add(btn3x3);
-//        fieldSizeButtonPanel.add(btn5x5);
-//        add(fieldSizeButtonPanel);
+        StylizedPanel winLengthPanel = new StylizedPanel(new GridLayout(1, 1), "WIN LENGTH");
+        StylizedSlider winLengthSlider = new StylizedSlider(MIN_FIELD_SIZE, MAX_FIELD_SIZE, MIN_FIELD_SIZE);
+        winLengthSlider.setExtent(MAX_FIELD_SIZE - MIN_FIELD_SIZE);
+        winLengthPanel.add(winLengthSlider);
 
-        StylizedSlider fieldSizeSlider = new StylizedSlider(3, 10, 3);
+        StylizedPanel fieldSizePanel = new StylizedPanel(new GridLayout(2, 1), "FIELD SIZE");
+        StylizedSlider fieldSizeSlider = new StylizedSlider(MIN_FIELD_SIZE, MAX_FIELD_SIZE, MIN_FIELD_SIZE);
         StylizedLabel fieldSize = new StylizedLabel("3x3");
         fieldSizeSlider.addChangeListener
-                (e -> fieldSize.setText(fieldSizeSlider.getValue() + "x" + fieldSizeSlider.getValue()));
-        StylizedPanel fieldSizePanel = new StylizedPanel(new GridLayout(2, 1), "FIELD SIZE");
+                (e -> {
+                    fieldSize.setText(fieldSizeSlider.getValue() + "x" + fieldSizeSlider.getValue());
+                    winLengthSlider.setExtent(MAX_FIELD_SIZE - fieldSizeSlider.getValue());
+                    winLengthSlider.setValue(fieldSizeSlider.getValue());
+                });
         fieldSizePanel.add(fieldSize);
         fieldSizePanel.add(fieldSizeSlider);
-        add(fieldSizePanel);
 
-//        btn3x3.addActionListener(e -> {
-//            gameWindow.startNewGame(0, 3, 3, 3);
-//            setVisible(false);
-//        });
-//        btn5x5.addActionListener(e -> {
-//            gameWindow.startNewGame(0, 5,5, 4);
-//            setVisible(false);
-//        });
+        StylizedButton startButton = new StylizedButton("START");
+        startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        startButton.addActionListener(e -> {
+            gameWindow.startNewGame(1, fieldSizeSlider.getValue(),
+                    fieldSizeSlider.getValue(), winLengthSlider.getValue());
+            setVisible(false);
+        });
+
+        add(gameModeButtonPanel);
+        add(fieldSizePanel);
+        add(winLengthPanel);
+        add(startButton);
     }
 
 
