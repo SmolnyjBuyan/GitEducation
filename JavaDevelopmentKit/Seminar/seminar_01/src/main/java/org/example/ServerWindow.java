@@ -1,7 +1,6 @@
 package org.example;
 
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
@@ -14,6 +13,7 @@ public class ServerWindow extends JFrame {
     private JButton buttonStop;
     private JPanel buttonPanel;
     private JTextArea logs;
+    private JScrollPane scrollPaneLogs;
     private boolean isServerWorking;
 
     public ServerWindow() {
@@ -26,7 +26,7 @@ public class ServerWindow extends JFrame {
         initButtonPanel();
         initTextArea();
 
-        add(logs);
+        add(scrollPaneLogs);
         add(buttonPanel, BorderLayout.SOUTH);
 
         setVisible(true);
@@ -62,8 +62,11 @@ public class ServerWindow extends JFrame {
 
     private void initTextArea() {
         logs = new JTextArea();
-        logs.setBorder(BorderFactory.createCompoundBorder
+        logs.setBorder(new EmptyBorder(5, 5, 5, 5));
+        scrollPaneLogs = new JScrollPane(logs);
+        scrollPaneLogs.setBorder(BorderFactory.createCompoundBorder
                 (new EmptyBorder(5, 5, 5, 5), new EtchedBorder()));
+        logs.setBorder(new EmptyBorder(5, 5, 5, 5));
         logs.setEditable(false);
     }
 }
