@@ -4,22 +4,31 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ClientWindow extends JFrame {
     private final int WIDTH = 500;
     private final int HEIGHT = 500;
 
+    private boolean isOnline;
+
     private JPanel panelConnection;
     private JPanel panelCredentials;
     private JPanel panelServer;
+    private JPanel panelConnectionStatus;
+    private JLabel offlineStatus;
+    private JLabel onlineStatus;
     private JTextArea logs;
     private JScrollPane scrollPaneLogs;
     private JScrollPane scrollPaneMessage;
     private JPanel panelSendMessage;
     private JButton buttonLogin;
+    private JPanel panelUsers;
 
     public ClientWindow() {
         setSize(WIDTH, HEIGHT);
+        isOnline = false;
         setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -27,11 +36,14 @@ public class ClientWindow extends JFrame {
 
         initCredentialsPanel();
         initServerPanel();
+        initConnectionStatusPanel();
         initConnectionPanel();
         initTextArea();
+        initUsersList();
         initSendMessagePanel();
         add(panelConnection, BorderLayout.NORTH);
         add(scrollPaneLogs);
+        add(panelUsers, BorderLayout.EAST);
         add(panelSendMessage, BorderLayout.SOUTH);
         setVisible(true);
     }
@@ -83,18 +95,27 @@ public class ClientWindow extends JFrame {
         panelConnection.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createEmptyBorder(5,5,5,5),
                 BorderFactory.createEtchedBorder()));
-
         JPanel panelInputFields = new JPanel();
         panelInputFields.setLayout(new BoxLayout(panelInputFields, BoxLayout.X_AXIS));
         panelInputFields.add(panelCredentials);
         panelInputFields.add(panelServer);
-
-        JPanel panelConnectStatus = new JPanel();
-        buttonLogin = new JButton("Login");
-        panelConnectStatus.add(buttonLogin);
-
         panelConnection.add(panelInputFields);
-        panelConnection.add(panelConnectStatus);
+        panelConnection.add(panelConnectionStatus);
+    }
+
+    private void initConnectionStatusPanel() {
+
+        panelConnectionStatus = new JPanel();
+        offlineStatus = new JLabel("Offline");
+        offlineStatus.setForeground(Color.RED);
+        onlineStatus = new JLabel("Online");
+        onlineStatus.setForeground(Color.GREEN);
+        onlineStatus.setVisible(false);
+        buttonLogin = new JButton("Login");
+        buttonLogin.addActionListener(e -> changeConnectionStatus());
+        panelConnectionStatus.add(buttonLogin);
+        panelConnectionStatus.add(offlineStatus);
+        panelConnectionStatus.add(onlineStatus);
     }
 
     private void initTextArea() {
@@ -139,5 +160,19 @@ public class ClientWindow extends JFrame {
             c.weightx = 1.0;
             container.add(textFields[i], c);
         }
+    }
+    private void initUsersList() {
+        panelUsers = new JPanel(new BorderLayout());
+        String[] users = {"Андрей", "Дмитрий", "Сергей", "Илья"};
+        JList<String> listUsers = new JList<>(users);
+        panelUsers.setBorder(BorderFactory.createCompoundBorder
+                (new EmptyBorder(5, 5, 5, 5), new EtchedBorder()));
+        panelUsers.add(listUsers);
+    }
+
+    private void changeConnectionStatus() {
+        offlineStatus.setVisible(isOnline);
+        onlineStatus.setVisible(!isOnline);
+        isOnline = !isOnline;
     }
 }
