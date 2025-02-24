@@ -2,7 +2,8 @@ package org.example;
 
 public class Main {
     public static void main(String[] args) {
-//        new ServerWindow();
-        new ClientWindow();
+        ServerWindow server = new ServerWindow();
+        new ClientWindow(server);
+        new ClientWindow(server);
     }
 }

@@ -4,17 +4,18 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class ClientWindow extends JFrame {
     private final int WIDTH = 500;
     private final int HEIGHT = 500;
 
+    private ServerWindow server;
     private boolean isOnline;
 
     private JPanel panelConnection;
     private JPanel panelCredentials;
+    private JTextField fieldUserName;
+    private JTextField fieldPassword;
     private JPanel panelServer;
     private JPanel panelConnectionStatus;
     private JLabel offlineStatus;
@@ -23,10 +24,14 @@ public class ClientWindow extends JFrame {
     private JScrollPane scrollPaneLogs;
     private JScrollPane scrollPaneMessage;
     private JPanel panelSendMessage;
+    private JTextArea messageArea;
+    private JButton buttonSend;
     private JButton buttonLogin;
+    private JButton buttonExit;
     private JPanel panelUsers;
 
-    public ClientWindow() {
+    public ClientWindow(ServerWindow server) {
+        this.server = server;
         setSize(WIDTH, HEIGHT);
         isOnline = false;
         setResizable(false);
@@ -55,11 +60,11 @@ public class ClientWindow extends JFrame {
         GridBagLayout gridbag = new GridBagLayout();
         panelCredentials.setLayout(gridbag);
 
-        JTextField fieldUserName = new JTextField(10);
+        fieldUserName = new JTextField("Andrey",10);
         JLabel labelUserName = new JLabel("Name: ");
         labelUserName.setLabelFor(fieldUserName);
 
-        JTextField fieldPassword = new JTextField(10);
+        fieldPassword = new JTextField("123456",10);
         JLabel labelPassword = new JLabel("Password: ");
         labelPassword.setLabelFor(fieldUserName);
 
@@ -75,11 +80,13 @@ public class ClientWindow extends JFrame {
         GridBagLayout gridbag = new GridBagLayout();
         panelServer.setLayout(gridbag);
 
-        JTextField fieldIp = new JTextField(10);
+        JTextField fieldIp = new JTextField("127.0.0.1",10);
+        fieldIp.setEnabled(false);
         JLabel labelIp = new JLabel("IP: ");
         labelIp.setLabelFor(fieldIp);
 
-        JTextField fieldPort = new JTextField(10);
+        JTextField fieldPort = new JTextField("5000",10);
+        fieldPort.setEnabled(false);
         JLabel labelPort = new JLabel("Port: ");
         labelPort.setLabelFor(fieldPort);
 
@@ -104,7 +111,6 @@ public class ClientWindow extends JFrame {
     }
 
     private void initConnectionStatusPanel() {
-
         panelConnectionStatus = new JPanel();
         offlineStatus = new JLabel("Offline");
         offlineStatus.setForeground(Color.RED);
@@ -112,8 +118,12 @@ public class ClientWindow extends JFrame {
         onlineStatus.setForeground(Color.GREEN);
         onlineStatus.setVisible(false);
         buttonLogin = new JButton("Login");
-        buttonLogin.addActionListener(e -> changeConnectionStatus());
+        buttonLogin.addActionListener(e -> login());
+        buttonExit = new JButton("Exit");
+        buttonExit.addActionListener(e -> changeConnectionStatus());
+        buttonExit.setVisible(false);
         panelConnectionStatus.add(buttonLogin);
+        panelConnectionStatus.add(buttonExit);
         panelConnectionStatus.add(offlineStatus);
         panelConnectionStatus.add(onlineStatus);
     }
@@ -131,12 +141,15 @@ public class ClientWindow extends JFrame {
         panelSendMessage = new JPanel();
         panelSendMessage.setLayout(new BoxLayout(panelSendMessage, BoxLayout.Y_AXIS));
         panelSendMessage.setBorder(new EmptyBorder(5, 5, 5,  5));
-        JTextArea message = new JTextArea(4,0);
-        message.setLineWrap(true);
-        scrollPaneMessage = new JScrollPane(message);
-        JPanel panelButton = new JPanel(new BorderLayout());
-        JButton buttonSend = new JButton("Send");
-        panelButton.add(buttonSend, BorderLayout.EAST);
+        messageArea = new JTextArea(4,0);
+        messageArea.setLineWrap(true);
+        messageArea.setEditable(isOnline);
+        scrollPaneMessage = new JScrollPane(messageArea);
+        JPanel panelButton = new JPanel();
+        buttonSend = new JButton("Send");
+        buttonSend.setEnabled(isOnline);
+        buttonSend.addActionListener(e -> sendMessage());
+        panelButton.add(buttonSend);
         panelSendMessage.add(scrollPaneMessage);
         panelSendMessage.add(panelButton);
     }
@@ -171,8 +184,35 @@ public class ClientWindow extends JFrame {
     }
 
     private void changeConnectionStatus() {
-        offlineStatus.setVisible(isOnline);
-        onlineStatus.setVisible(!isOnline);
         isOnline = !isOnline;
+        offlineStatus.setVisible(!isOnline);
+        onlineStatus.setVisible(isOnline);
+        buttonExit.setVisible(isOnline);
+        buttonLogin.setVisible(!isOnline);
+        messageArea.setEditable(isOnline);
+        buttonSend.setEnabled(isOnline);
+        fieldUserName.setEnabled(!isOnline);
+        fieldPassword.setEnabled(!isOnline);
+    }
+
+    private void login() {
+        if (isConnectionValid()) {
+            changeConnectionStatus();
+            server.addOnlineUser(this);
+        }
+        updateLogs();
+    }
+
+    private boolean isConnectionValid() {
+        return server.isUserValid(fieldUserName.getText(), fieldPassword.getText());
+    }
+
+    public void updateLogs() {
+        logs.setText("");
+        logs.setText(server.getLogs());
+    }
+
+    private void sendMessage() {
+        server.addMessage(fieldUserName.getText() + ": " + messageArea.getText() + System.lineSeparator());
     }
 }

@@ -4,19 +4,25 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ServerWindow extends JFrame {
     private final int WIDTH = 500;
     private final int HEIGHT = 500;
 
+    private DataBase dataBase;
     private JButton buttonStart;
     private JButton buttonStop;
     private JPanel buttonPanel;
-    private JTextArea logs;
+    public JTextArea logs;
     private JScrollPane scrollPaneLogs;
     private boolean isServerWorking;
+    private List<ClientWindow> onlineUsers;
 
     public ServerWindow() {
+        dataBase = new DataBase();
+        onlineUsers = new ArrayList<>();
         setSize(WIDTH, HEIGHT);
         setResizable(false);
         setLocationRelativeTo(null);
@@ -68,5 +74,22 @@ public class ServerWindow extends JFrame {
                 (new EmptyBorder(5, 5, 5, 5), new EtchedBorder()));
         logs.setBorder(new EmptyBorder(5, 5, 5, 5));
         logs.setEditable(false);
+    }
+
+    public boolean isUserValid(String username, String password) {
+        return dataBase.isUserValid(username, password);
+    }
+
+    public void addMessage(String message) {
+        logs.append(message);
+        onlineUsers.forEach(ClientWindow::updateLogs);
+    }
+
+    public String getLogs() {
+        return logs.getText();
+    }
+
+    public void addOnlineUser(ClientWindow clientWindow) {
+        onlineUsers.add(clientWindow);
     }
 }
