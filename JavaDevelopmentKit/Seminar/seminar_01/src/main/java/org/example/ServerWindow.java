@@ -4,12 +4,23 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ServerWindow extends JFrame {
     private final int WIDTH = 500;
     private final int HEIGHT = 500;
+    private final Path LOG_HISTORY_FILE_PATH = Paths.get("src/main/resources/history");
+    private final String SERVER_RUN = "Server is running" + System.lineSeparator();
+    private final String SERVER_ALREADY_RUN = "Server is already running" + System.lineSeparator();
+    private final String SERVER_STOP = "Server is stopped" + System.lineSeparator();
+    private final String SERVER_ALREADY_STOP = "Server is already stopped" + System.lineSeparator();
 
     private DataBase dataBase;
     private JButton buttonStart;
@@ -29,8 +40,9 @@ public class ServerWindow extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
+        validateLogFile();
         initButtonPanel();
-        initTextArea();
+        initLogsArea();
 
         add(scrollPaneLogs);
         add(buttonPanel, BorderLayout.SOUTH);
@@ -40,18 +52,22 @@ public class ServerWindow extends JFrame {
 
     private void startServer() {
         if (isServerWorking) {
-            logs.append("Server is already running" + System.lineSeparator());
+            logs.append(SERVER_ALREADY_RUN);
+            addMessageToHistoryFile(SERVER_ALREADY_RUN);
         } else {
-            logs.append("Server is running" + System.lineSeparator());
+            logs.append(SERVER_RUN);
+            addMessageToHistoryFile(SERVER_RUN);
             isServerWorking = true;
         }
     }
 
     private void stopServer() {
         if (!isServerWorking) {
-            logs.append("Server is already stopped" + System.lineSeparator());
+            logs.append(SERVER_ALREADY_STOP);
+            addMessageToHistoryFile(SERVER_ALREADY_STOP);
         } else {
-            logs.append("Server is stopped" + System.lineSeparator());
+            logs.append(SERVER_STOP);
+            addMessageToHistoryFile(SERVER_STOP);
             isServerWorking = false;
         }
     }
@@ -66,7 +82,7 @@ public class ServerWindow extends JFrame {
         buttonPanel.add(buttonStop);
     }
 
-    private void initTextArea() {
+    private void initLogsArea() {
         logs = new JTextArea();
         logs.setBorder(new EmptyBorder(5, 5, 5, 5));
         scrollPaneLogs = new JScrollPane(logs);
@@ -74,6 +90,32 @@ public class ServerWindow extends JFrame {
                 (new EmptyBorder(5, 5, 5, 5), new EtchedBorder()));
         logs.setBorder(new EmptyBorder(5, 5, 5, 5));
         logs.setEditable(false);
+        logs.setText(readHistory());
+    }
+
+    private String readHistory() {
+        StringBuilder chatHistory = new StringBuilder();
+
+        try (BufferedReader reader = Files.newBufferedReader(LOG_HISTORY_FILE_PATH)) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                chatHistory.append(line).append(System.lineSeparator());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return chatHistory.toString();
+    }
+
+    private void validateLogFile() {
+        if (!Files.exists(LOG_HISTORY_FILE_PATH)) {
+            try {
+                Files.createFile(LOG_HISTORY_FILE_PATH);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     public boolean isUserValid(String username, String password) {
@@ -82,7 +124,16 @@ public class ServerWindow extends JFrame {
 
     public void addMessage(String message) {
         logs.append(message);
+        addMessageToHistoryFile(message);
         onlineUsers.forEach(ClientWindow::updateLogs);
+    }
+
+    private void addMessageToHistoryFile(String message) {
+        try {
+            Files.write(LOG_HISTORY_FILE_PATH, message.getBytes(), StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public String getLogs() {

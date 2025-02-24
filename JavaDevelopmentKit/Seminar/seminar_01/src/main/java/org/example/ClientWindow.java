@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
 public class ClientWindow extends JFrame {
     private final int WIDTH = 500;
@@ -43,8 +45,9 @@ public class ClientWindow extends JFrame {
         initServerPanel();
         initConnectionStatusPanel();
         initConnectionPanel();
-        initTextArea();
+        initLogArea();
         initUsersList();
+        initMessageArea();
         initSendMessagePanel();
         add(panelConnection, BorderLayout.NORTH);
         add(scrollPaneLogs);
@@ -128,7 +131,7 @@ public class ClientWindow extends JFrame {
         panelConnectionStatus.add(onlineStatus);
     }
 
-    private void initTextArea() {
+    private void initLogArea() {
         logs = new JTextArea();
         logs.setBorder(new EmptyBorder(5, 5, 5, 5));
         scrollPaneLogs = new JScrollPane(logs);
@@ -137,13 +140,25 @@ public class ClientWindow extends JFrame {
         logs.setEditable(false);
     }
 
+    private void initMessageArea() {
+        messageArea = new JTextArea(4,0);
+        messageArea.setLineWrap(true);
+        messageArea.setEditable(isOnline);
+        messageArea.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke
+                (KeyEvent.VK_ENTER, KeyEvent.SHIFT_DOWN_MASK, true), "Shift+Enter released");
+        messageArea.getActionMap().put("Shift+Enter released", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                sendMessage();
+            }
+        });
+    }
+
+
     private void initSendMessagePanel() {
         panelSendMessage = new JPanel();
         panelSendMessage.setLayout(new BoxLayout(panelSendMessage, BoxLayout.Y_AXIS));
         panelSendMessage.setBorder(new EmptyBorder(5, 5, 5,  5));
-        messageArea = new JTextArea(4,0);
-        messageArea.setLineWrap(true);
-        messageArea.setEditable(isOnline);
         scrollPaneMessage = new JScrollPane(messageArea);
         JPanel panelButton = new JPanel();
         buttonSend = new JButton("Send");
@@ -208,11 +223,11 @@ public class ClientWindow extends JFrame {
     }
 
     public void updateLogs() {
-        logs.setText("");
         logs.setText(server.getLogs());
     }
 
     private void sendMessage() {
         server.addMessage(fieldUserName.getText() + ": " + messageArea.getText() + System.lineSeparator());
+        messageArea.setText("");
     }
 }
