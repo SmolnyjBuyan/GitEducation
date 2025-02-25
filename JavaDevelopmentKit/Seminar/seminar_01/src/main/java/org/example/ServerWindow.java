@@ -29,11 +29,11 @@ public class ServerWindow extends JFrame {
     public JTextArea logs;
     private JScrollPane scrollPaneLogs;
     private boolean isServerWorking;
-    private List<ClientWindow> onlineUsers;
+    private List<ClientWindow> onlineClients;
 
     public ServerWindow() {
         dataBase = new DataBase();
-        onlineUsers = new ArrayList<>();
+        onlineClients = new ArrayList<>();
         setSize(WIDTH, HEIGHT);
         setResizable(false);
         setLocationRelativeTo(null);
@@ -125,7 +125,7 @@ public class ServerWindow extends JFrame {
     public void addMessage(String message) {
         logs.append(message);
         addMessageToHistoryFile(message);
-        onlineUsers.forEach(ClientWindow::updateLogs);
+        onlineClients.forEach(ClientWindow::updateLogs);
     }
 
     private void addMessageToHistoryFile(String message) {
@@ -140,7 +140,19 @@ public class ServerWindow extends JFrame {
         return logs.getText();
     }
 
-    public void addOnlineUser(ClientWindow clientWindow) {
-        onlineUsers.add(clientWindow);
+    public void addClient(ClientWindow clientWindow) {
+        onlineClients.add(clientWindow);
+    }
+
+    public void removeClient(ClientWindow clientWindow) {
+        onlineClients.remove(clientWindow);
+    }
+
+    public String[] getOnlineUserNames() {
+        return onlineClients.stream().map(ClientWindow::getUserName).toArray(String[]::new);
+    }
+
+    public void updateOnlineUsersList() {
+        onlineClients.forEach(ClientWindow::updateOnlineUsersList);
     }
 }

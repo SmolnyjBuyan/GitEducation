@@ -17,16 +17,19 @@ public class ClientWindow extends JFrame {
     private JPanel panelConnection;
     private JPanel panelCredentials;
     private JTextField fieldUserName;
-    private JTextField fieldPassword;
+    private JPasswordField fieldPassword;
     private JPanel panelServer;
     private JPanel panelConnectionStatus;
     private JLabel offlineStatus;
     private JLabel onlineStatus;
+    private JPanel panelLogs;
     private JTextArea logs;
     private JScrollPane scrollPaneLogs;
     private JScrollPane scrollPaneMessage;
     private JPanel panelSendMessage;
     private JTextArea messageArea;
+    private JList<String> listUsers;
+    private JScrollPane scrollPaneListUsers;
     private JButton buttonSend;
     private JButton buttonLogin;
     private JButton buttonExit;
@@ -50,7 +53,7 @@ public class ClientWindow extends JFrame {
         initMessageArea();
         initSendMessagePanel();
         add(panelConnection, BorderLayout.NORTH);
-        add(scrollPaneLogs);
+        add(panelLogs);
         add(panelUsers, BorderLayout.EAST);
         add(panelSendMessage, BorderLayout.SOUTH);
         setVisible(true);
@@ -67,7 +70,7 @@ public class ClientWindow extends JFrame {
         JLabel labelUserName = new JLabel("Name: ");
         labelUserName.setLabelFor(fieldUserName);
 
-        fieldPassword = new JTextField("123456",10);
+        fieldPassword = new JPasswordField("123456",10);
         JLabel labelPassword = new JLabel("Password: ");
         labelPassword.setLabelFor(fieldUserName);
 
@@ -123,7 +126,7 @@ public class ClientWindow extends JFrame {
         buttonLogin = new JButton("Login");
         buttonLogin.addActionListener(e -> login());
         buttonExit = new JButton("Exit");
-        buttonExit.addActionListener(e -> changeConnectionStatus());
+        buttonExit.addActionListener(e -> exit());
         buttonExit.setVisible(false);
         panelConnectionStatus.add(buttonLogin);
         panelConnectionStatus.add(buttonExit);
@@ -132,16 +135,18 @@ public class ClientWindow extends JFrame {
     }
 
     private void initLogArea() {
+        panelLogs = new JPanel(new BorderLayout());
         logs = new JTextArea();
         logs.setBorder(new EmptyBorder(5, 5, 5, 5));
         scrollPaneLogs = new JScrollPane(logs);
-        scrollPaneLogs.setBorder(BorderFactory.createCompoundBorder
-                (new EmptyBorder(5, 5, 5, 5), new EtchedBorder()));
+        panelLogs.setBorder(new EmptyBorder(5, 5, 5, 5));
         logs.setEditable(false);
+        panelLogs.add(scrollPaneLogs);
     }
 
     private void initMessageArea() {
         messageArea = new JTextArea(4,0);
+        messageArea.setBorder(new EmptyBorder(5, 5, 5, 5));
         messageArea.setLineWrap(true);
         messageArea.setEditable(isOnline);
         messageArea.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke
@@ -191,11 +196,10 @@ public class ClientWindow extends JFrame {
     }
     private void initUsersList() {
         panelUsers = new JPanel(new BorderLayout());
-        String[] users = {"Андрей", "Дмитрий", "Сергей", "Илья"};
-        JList<String> listUsers = new JList<>(users);
-        panelUsers.setBorder(BorderFactory.createCompoundBorder
-                (new EmptyBorder(5, 5, 5, 5), new EtchedBorder()));
-        panelUsers.add(listUsers);
+        listUsers = new JList<>();
+        scrollPaneListUsers = new JScrollPane(listUsers);
+        panelUsers.setBorder(new EmptyBorder(5, 5, 5, 5));
+        panelUsers.add(scrollPaneListUsers);
     }
 
     private void changeConnectionStatus() {
@@ -213,9 +217,16 @@ public class ClientWindow extends JFrame {
     private void login() {
         if (isConnectionValid()) {
             changeConnectionStatus();
-            server.addOnlineUser(this);
+            server.addClient(this);
+            server.updateOnlineUsersList();
+            updateLogs();
         }
-        updateLogs();
+    }
+
+    private void exit() {
+        changeConnectionStatus();
+        server.removeClient(this);
+        server.updateOnlineUsersList();
     }
 
     private boolean isConnectionValid() {
@@ -229,5 +240,13 @@ public class ClientWindow extends JFrame {
     private void sendMessage() {
         server.addMessage(fieldUserName.getText() + ": " + messageArea.getText() + System.lineSeparator());
         messageArea.setText("");
+    }
+
+    public String getUserName() {
+        return fieldUserName.getText();
+    }
+
+    public void updateOnlineUsersList() {
+        listUsers.setListData(server.getOnlineUserNames());
     }
 }
