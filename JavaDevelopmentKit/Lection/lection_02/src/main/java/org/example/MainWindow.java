@@ -18,11 +18,11 @@ public class MainWindow extends JFrame {
         setVisible(true);
     }
 
-    public void onDrawFrame() {
-        update();
-        render();
+    public void onDrawFrame(MainCanvas canvas, Graphics g, float deltaTime) {
+        update(canvas, deltaTime);
+        render(canvas, g);
     }
 
-    private void update(){}
-    private void render(){}
+    private void update(MainCanvas canvas, float deltaTime){}
+    private void render(MainCanvas canvas, Graphics g){}
 }
