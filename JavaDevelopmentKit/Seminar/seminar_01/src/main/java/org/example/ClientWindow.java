@@ -196,7 +196,7 @@ public class ClientWindow extends JFrame {
     }
     private void initUsersList() {
         panelUsers = new JPanel(new BorderLayout());
-        listUsers = new JList<>();
+        listUsers = new JList<>(new String[]{"              "});
         scrollPaneListUsers = new JScrollPane(listUsers);
         panelUsers.setBorder(new EmptyBorder(5, 5, 5, 5));
         panelUsers.add(scrollPaneListUsers);
