@@ -1,14 +1,13 @@
-package org.example;
+package org.example.common;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class MainCanvas extends JPanel {
-    private final MainWindow controller;
+    private final CanvasRepaintListener controller;
     private long lastFrameTime;
 
-    public MainCanvas(MainWindow controller) {
-        setBackground(Color.BLUE);
+    public MainCanvas(CanvasRepaintListener controller) {
         this.controller = controller;
         lastFrameTime = System.nanoTime();
     }
@@ -18,7 +17,7 @@ public class MainCanvas extends JPanel {
         super.paintComponent(g);
 
         try {
-            Thread.sleep(16);
+            Thread.sleep(8);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

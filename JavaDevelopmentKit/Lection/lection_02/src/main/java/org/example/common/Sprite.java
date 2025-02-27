@@ -1,8 +1,8 @@
-package org.example;
+package org.example.common;
 
 import java.awt.*;
 
-public abstract class Sprite {
+public abstract class Sprite implements Interactable {
     protected float x;
     protected float y;
     protected float halfWidth;
@@ -40,6 +40,6 @@ public abstract class Sprite {
         return 2f * halfHeight;
     }
 
-    void update(MainCanvas canvas, float deltaTime) {}
-    void render(MainCanvas canvas, Graphics g) {}
+    public void update(MainCanvas canvas, float deltaTime) {}
+    public void render(MainCanvas canvas, Graphics g) {}
 }

@@ -1,21 +1,10 @@
 package org.example;
 
-import java.util.Random;
+import org.example.circles.MainWindow;
+import org.example.common.MainCanvas;
 
 public class Main {
     public static void main(String[] args) {
-//        new MainWindow();
-        Random rnd = new Random();
-        System.out.println(rnd.nextInt());
-        System.out.println(rnd.nextInt());
-        System.out.println(rnd.nextInt());
-        System.out.println(rnd.nextInt());
-        System.out.println(rnd.nextInt());
-        System.out.println(rnd.nextInt());
-        System.out.println(rnd.nextInt());
-        System.out.println(rnd.nextInt());
-        System.out.println(rnd.nextInt());
-        System.out.println(rnd.nextInt());
-        System.out.println(rnd.nextInt());
+        new MainWindow();
     }
 }
