@@ -1,4 +1,4 @@
-package org.example.circles;
+package org.example.pngs;
 
 import org.example.common.CanvasRepaintListener;
 import org.example.common.Interactable;
@@ -20,13 +20,11 @@ public class MainWindow extends JFrame implements CanvasRepaintListener, MouseLi
     private final List<Interactable> interactables = new ArrayList<>();
     private final BallList balls = new BallList();
 
-
     public MainWindow() throws HeadlessException {
         Thread.setDefaultUncaughtExceptionHandler(this);
         setBounds(POS_X, POS_Y, WIDTH, HEIGHT);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("Circles");
-        interactables.add(new Background());
         interactables.add(balls);
         MainCanvas canvas = new MainCanvas(this);
         canvas.addMouseListener(this);
@@ -52,7 +50,7 @@ public class MainWindow extends JFrame implements CanvasRepaintListener, MouseLi
     public void mouseClicked(MouseEvent e) {
         if (SwingUtilities.isLeftMouseButton(e)) {
             if (balls.size() >= 15) throw new MaxBallCountException();
-            balls.add(new Ball());
+            balls.add(new Png());
         } else if (SwingUtilities.isRightMouseButton(e) && !balls.isEmpty()) {
             balls.remove(balls.size() - 1);
         }
