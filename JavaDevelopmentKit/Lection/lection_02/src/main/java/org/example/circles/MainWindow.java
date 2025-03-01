@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainWindow extends JFrame implements CanvasRepaintListener, MouseListener {
     public static final int POS_X = 400;
@@ -15,16 +17,15 @@ public class MainWindow extends JFrame implements CanvasRepaintListener, MouseLi
     public static final int WIDTH = 800;
     public static final int HEIGHT = 800;
 
-    private final Interactable[] interactables = new Interactable[10];
+//    private final Interactable[] interactables = new Interactable[10];
+    private final List<Interactable> interactables = new ArrayList<Interactable>();
 
     public MainWindow() throws HeadlessException {
         setBounds(POS_X, POS_Y, WIDTH, HEIGHT);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("Circles");
-        interactables[0] = new Background();
-        for (int i = 1; i < interactables.length; i++) {
-            interactables[i] = new Ball();
-        }
+        interactables.add(new Background());
+
         MainCanvas canvas = new MainCanvas(this);
         canvas.addMouseListener(this);
         add(canvas);
@@ -38,20 +39,16 @@ public class MainWindow extends JFrame implements CanvasRepaintListener, MouseLi
     }
 
     private void update(MainCanvas canvas, float deltaTime) {
-        for (int i = 0; i < interactables.length; i++) {
-            interactables[i].update(canvas, deltaTime);
-        }
+        interactables.forEach(e -> e.update(canvas, deltaTime));
     }
 
     private void render(MainCanvas canvas, Graphics g) {
-        for (int i = 0; i < interactables.length; i++) {
-            interactables[i].render(canvas, g);
-        }
+        interactables.forEach(e -> e.render(canvas, g));
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        System.out.println("Clicked!");
+        interactables.add(new Ball());
     }
 
     @Override

@@ -2,7 +2,6 @@ package org.example;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -126,7 +125,7 @@ public class ClientWindow extends JFrame {
         buttonLogin = new JButton("Login");
         buttonLogin.addActionListener(e -> login());
         buttonExit = new JButton("Exit");
-        buttonExit.addActionListener(e -> exit());
+        buttonExit.addActionListener(e -> disconnect());
         buttonExit.setVisible(false);
         panelConnectionStatus.add(buttonLogin);
         panelConnectionStatus.add(buttonExit);
@@ -215,7 +214,7 @@ public class ClientWindow extends JFrame {
     }
 
     private void login() {
-        if (isConnectionValid()) {
+        if (server.isOnline() && isConnectionValid()) {
             changeConnectionStatus();
             server.addClient(this);
             server.updateOnlineUsersList();
@@ -223,7 +222,7 @@ public class ClientWindow extends JFrame {
         }
     }
 
-    private void exit() {
+    public void disconnect() {
         changeConnectionStatus();
         server.removeClient(this);
         server.updateOnlineUsersList();

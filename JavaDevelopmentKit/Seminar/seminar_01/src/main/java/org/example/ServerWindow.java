@@ -66,6 +66,7 @@ public class ServerWindow extends JFrame {
             logs.append(SERVER_ALREADY_STOP);
             addMessageToHistoryFile(SERVER_ALREADY_STOP);
         } else {
+            while (!onlineClients.isEmpty()) onlineClients.get(0).disconnect();
             logs.append(SERVER_STOP);
             addMessageToHistoryFile(SERVER_STOP);
             isServerWorking = false;
@@ -154,5 +155,9 @@ public class ServerWindow extends JFrame {
 
     public void updateOnlineUsersList() {
         onlineClients.forEach(ClientWindow::updateOnlineUsersList);
+    }
+
+    public boolean isOnline() {
+        return isServerWorking;
     }
 }
