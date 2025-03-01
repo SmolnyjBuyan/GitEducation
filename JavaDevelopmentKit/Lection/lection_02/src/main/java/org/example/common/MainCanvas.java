@@ -1,5 +1,7 @@
 package org.example.common;
 
+import org.example.circles.MaxBallCountException;
+
 import javax.swing.*;
 import java.awt.*;
 
