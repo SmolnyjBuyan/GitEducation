@@ -1,15 +1,14 @@
-package org.example;
+package org.example.server;
 
-import com.sun.xml.internal.ws.policy.EffectiveAlternativeSelector;
+import org.example.client.User;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-public class DataBase {
+public class Users {
     private final List<User> users;
 
-    public DataBase() {
+    public Users() {
         users = new ArrayList<>();
         users.add(new User("Andrey", "123456"));
         users.add(new User("Sergey", "1234"));

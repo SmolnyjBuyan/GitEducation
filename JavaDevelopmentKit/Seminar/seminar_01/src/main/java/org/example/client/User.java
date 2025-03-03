@@ -1,10 +1,10 @@
-package org.example;
+package org.example.client;
 
 import java.util.Objects;
 
 public class User {
-    private String name;
-    private String password;
+    private final String name;
+    private final String password;
 
     public String getName() {
         return name;
