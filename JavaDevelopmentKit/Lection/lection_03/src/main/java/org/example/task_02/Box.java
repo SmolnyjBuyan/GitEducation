@@ -13,7 +13,7 @@ public class Box <T extends Fruit> {
     public void add(T fruit) {
         fruits.add(fruit);
     }
-    public void addAll(List<T> fruits) {
+    public void addAll(List<? extends T> fruits) {
         this.fruits.addAll(fruits);
     }
     public float getWeight() {
@@ -25,17 +25,17 @@ public class Box <T extends Fruit> {
 //        return fruits.stream().map(Fruit::getWeight).reduce(0f, Float::sum);
 //    }
 
-    public boolean compare(Box<? extends Fruit> box) {
+    public boolean compare(Box<?> box) {
         return getWeight() == box.getWeight();
     }
 
-    public void moveFruitsTo(Box<T> box) {
+    public void moveFruitsTo(Box<? super T> box) {
         while (!fruits.isEmpty()) {
             box.add(fruits.remove(0));
         }
     }
 
-    public void moveAllFruitsTo(Box<T> box) {
+    public void moveAllFruitsTo(Box<? super T> box) {
         box.addAll(getFruits());
         fruits.clear();
     }
