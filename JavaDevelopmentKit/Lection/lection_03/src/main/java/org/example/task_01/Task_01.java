@@ -21,8 +21,4 @@ public class Task_01 {
         System.out.println(Arrays.toString(strings));
         System.out.println(Arrays.toString(integers));
     }
-    public static void swap(List<?> list, int srcIndex, int destIndex) {
-        list.set(srcIndex, list.set(destIndex, list.get(srcIndex)));
-    }
-
 }
