@@ -3,6 +3,8 @@ package org.example;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -15,5 +17,15 @@ public class Main {
             throw new RuntimeException(e);
         }
 
+        MyOwnCollection<Integer> myOwnCollection = new MyOwnCollection<>();
+        for (int i = 0; i < 11; i++) {
+            myOwnCollection.add(i);
+        }
+        System.out.println(myOwnCollection);
+
+        myOwnCollection.remove(4);
+        System.out.println(myOwnCollection);
+        myOwnCollection.add(29);
+        System.out.println(myOwnCollection);
     }
 }
