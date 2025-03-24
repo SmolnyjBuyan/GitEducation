@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class User {
-    public static long idCounter = 1L;
+    private static long idCounter = 1L;
     private final long id;
     private final String name;
 
