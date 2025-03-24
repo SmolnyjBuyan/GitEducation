@@ -5,12 +5,6 @@
  * For more details on building Java & JVM projects, please refer to https://docs.gradle.org/8.13/userguide/building_java_projects.html in the Gradle documentation.
  */
 
-val profiles = mapOf("default" to "MyAppDefault",
-    "production" to "MyAppProduction",
-    "development" to "MyAppDevelopment")
-
-extra.set("profileConfig", profiles.getValue(project.findProperty("profile").toString()))
-
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     application
@@ -21,6 +15,7 @@ repositories {
     mavenCentral()
 }
 
+
 dependencies {
     // Use JUnit Jupiter for testing.
     testImplementation(libs.junit.jupiter)
@@ -29,23 +24,12 @@ dependencies {
 
     // This dependency is used by the application.
     implementation(libs.guava)
-    implementation("com.google.guava:guava:30.1-jre")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(8)
-    }
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-}
-
-tasks.withType<Jar> {
-    manifest {
-        attributes["Implementation-Title"] = project.extra.get("profileConfig")
-        attributes["Implementation-Version"] = version
-        isZip64 = true
     }
 }
 
@@ -54,16 +38,7 @@ application {
     mainClass = "org.example.App"
 }
 
-
 tasks.named<Test>("test") {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
 }
-
-
-
-
-
-
-
-
