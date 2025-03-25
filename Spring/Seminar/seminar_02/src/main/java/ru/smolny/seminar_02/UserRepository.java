@@ -24,4 +24,8 @@ public class UserRepository {
     public User getById(long id) {
         return users.stream().filter(user -> user.getId() == id).findFirst().orElse(null);
     }
+
+    public User getByName(String name) {
+        return users.stream().filter(user -> user.getName().equals(name)).findFirst().orElse(null);
+    }
 }
