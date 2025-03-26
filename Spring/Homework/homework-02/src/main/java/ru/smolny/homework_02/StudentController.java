@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+//@RestController
 @RequiredArgsConstructor
 public class StudentController {
     private final StudentRepository repository;
