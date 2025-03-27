@@ -39,7 +39,9 @@ public class StudentRepository {
     }
 
     public List<Student> getByGroup(String groupName) {
-        return students.stream().filter(student -> student.getGroupName().equals(groupName)).toList();
+        List<Student> group = students.stream().filter(student -> student.getGroupName().equals(groupName)).toList();
+        if (group.isEmpty()) return null;
+        return group;
     }
 
     public Student add(Student student) {
