@@ -1,6 +1,7 @@
 package ru.smolny.homework_02;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +39,7 @@ public class StudentControllerEnhanced {
 
     @PostMapping("/student")
     public ResponseEntity<Student> addStudent(@RequestBody Student student) {
-        return ResponseEntity.ok(repository.add(student));
+        return ResponseEntity.status(HttpStatus.CREATED).body(repository.add(student));
     }
 
     @DeleteMapping("/student/{id}")
