@@ -1,16 +1,14 @@
 package ru.smolny.homework_03.api;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+import ru.smolny.homework_03.exception.ResourceNotFoundException;
 import ru.smolny.homework_03.model.Issue;
 import ru.smolny.homework_03.service.IssueService;
 
 import java.net.URI;
-import java.util.NoSuchElementException;
 
 @Slf4j
 @RestController
@@ -24,11 +22,10 @@ public class IssueController {
 
     @PostMapping
     public ResponseEntity<Issue> issueBook(@RequestBody IssueRequest request, UriComponentsBuilder uriBuilder) {
-        log.info("Получен запрос на выдачу: readerId = {}, bookId = {}", request.getReaderId(), request.getBookId());
         Issue issue;
         try {
             issue = issueService.issue(request);
-        } catch (NoSuchElementException e) {
+        } catch (ResourceNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
 
