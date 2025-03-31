@@ -2,6 +2,7 @@ package ru.smolny.homework_03.repository;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Repository;
+import ru.smolny.homework_03.exception.BookNotFoundException;
 import ru.smolny.homework_03.model.Book;
 
 import java.util.ArrayList;

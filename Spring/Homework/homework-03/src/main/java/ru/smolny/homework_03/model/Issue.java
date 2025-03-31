@@ -10,12 +10,21 @@ public class Issue {
     private final long id;
     private final long bookId;
     private final long readerId;
-    private final LocalDateTime timestamp;
+    private final LocalDateTime issuedAt;
+    private LocalDateTime returnedAt;
 
     public Issue(long bookId, long readerId) {
         id = ++sequence;
         this.bookId = bookId;
         this.readerId = readerId;
-        timestamp = LocalDateTime.now();
+        issuedAt = LocalDateTime.now();
+    }
+
+    public void returnBook() {
+        if (returnedAt == null) returnedAt = LocalDateTime.now();
+    }
+
+    public boolean isReturned() {
+        return returnedAt != null;
     }
 }

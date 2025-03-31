@@ -13,8 +13,7 @@ public class BookService {
     private final BookRepository bookRepository;
 
     public Book getById(long id) {
-        return bookRepository.getById(id)
-                .orElseThrow(() -> new BookNotFoundException(id));
+        return bookRepository.getById(id).orElseThrow(() -> new BookNotFoundException(id));
     }
 
     public void deleteById(long id) {

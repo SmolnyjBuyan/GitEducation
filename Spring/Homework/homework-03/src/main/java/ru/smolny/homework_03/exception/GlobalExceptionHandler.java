@@ -1,6 +1,5 @@
 package ru.smolny.homework_03.exception;
 
-import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,6 +53,18 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceAlreadyExistsException.class)
     public ResponseEntity<ErrorResponse> handleAlreadyExists(ResourceAlreadyExistsException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(new ErrorResponse("Conflict", ex.getMessage()));
+    }
+
+    @ExceptionHandler(BookLimitException.class)
+    public ResponseEntity<ErrorResponse> handleBookLimit(BookLimitException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(new ErrorResponse("Conflict", ex.getMessage()));
+    }
+
+    @ExceptionHandler(BookAlreadyOnHandException.class)
+    public ResponseEntity<ErrorResponse> handleBookAlreadyOnHand(BookAlreadyOnHandException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(new ErrorResponse("Conflict", ex.getMessage()));
     }
