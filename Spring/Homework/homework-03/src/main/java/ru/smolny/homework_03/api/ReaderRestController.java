@@ -18,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/reader")
 @Validated
-public class ReaderController {
+public class ReaderRestController {
     private final ReaderService readerService;
     @GetMapping("/{id}")
     public ResponseEntity<Reader> getById(@PathVariable @Min(value = 1, message = "ID must be greater than 0") long id) {

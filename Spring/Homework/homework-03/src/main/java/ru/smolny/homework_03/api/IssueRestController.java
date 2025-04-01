@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-import ru.smolny.homework_03.exception.ResourceNotFoundException;
 import ru.smolny.homework_03.model.Issue;
 import ru.smolny.homework_03.service.IssueService;
 
@@ -18,7 +17,7 @@ import java.net.URI;
 @RequestMapping("/issue")
 @RequiredArgsConstructor
 @Validated
-public class IssueController {
+public class IssueRestController {
     private final IssueService issueService;
 
     @GetMapping("/{id}")

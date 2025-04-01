@@ -7,10 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-import ru.smolny.homework_03.exception.BookNotFoundException;
-import ru.smolny.homework_03.exception.ResourceNotFoundException;
 import ru.smolny.homework_03.model.Book;
-import ru.smolny.homework_03.model.Issue;
 import ru.smolny.homework_03.service.BookService;
 
 import java.net.URI;
@@ -19,7 +16,7 @@ import java.net.URI;
 @RequiredArgsConstructor
 @RequestMapping("/book")
 @Validated
-public class BookController {
+public class BookRestController {
     private final BookService bookService;
     @GetMapping("/{id}")
     public ResponseEntity<Book> getById(@PathVariable @Min(value = 1, message = "ID must be greater than 0") long id) {

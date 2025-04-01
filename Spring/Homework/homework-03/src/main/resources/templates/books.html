@@ -1,0 +1,28 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Books</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<h1>Книги</h1>
+    <table class="styled-table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="book: ${books}">
+            <td th:text="${book.id}"></td>
+            <td th:text="${book.title}"></td>
+        </tr>
+        </tbody>
+    </table>
+</body>
+</html>

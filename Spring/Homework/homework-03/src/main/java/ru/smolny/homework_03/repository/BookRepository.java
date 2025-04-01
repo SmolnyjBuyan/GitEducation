@@ -30,6 +30,10 @@ public class BookRepository {
         return books.stream().filter(book -> book.getId() == id).findFirst();
     }
 
+    public List<Book> getAll() {
+        return books;
+    }
+
     public Optional<Book> getByTitle(String title) {
         return books.stream().filter(book -> book.getTitle()
                 .equalsIgnoreCase(title)).findFirst();

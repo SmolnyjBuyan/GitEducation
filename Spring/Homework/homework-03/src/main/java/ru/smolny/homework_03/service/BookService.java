@@ -7,6 +7,8 @@ import ru.smolny.homework_03.exception.BookNotFoundException;
 import ru.smolny.homework_03.model.Book;
 import ru.smolny.homework_03.repository.BookRepository;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class BookService {
@@ -14,6 +16,10 @@ public class BookService {
 
     public Book getById(long id) {
         return bookRepository.getById(id).orElseThrow(() -> new BookNotFoundException(id));
+    }
+
+    public List<Book> getAll() {
+        return bookRepository.getAll();
     }
 
     public void deleteById(long id) {
