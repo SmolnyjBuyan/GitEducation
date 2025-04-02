@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import ru.smolny.homework_03.service.BookService;
 
 @Controller
-@RequestMapping("/ui/books")
+@RequestMapping("/ui/book")
 @RequiredArgsConstructor
 public class BookController {
     private final BookService bookService;

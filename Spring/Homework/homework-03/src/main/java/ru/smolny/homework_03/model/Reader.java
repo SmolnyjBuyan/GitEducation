@@ -7,7 +7,6 @@ public class Reader {
     private static long sequence;
     private final long id;
     private final String name;
-    private int booksOnHandCount;
 
     public Reader(String name) {
         id = ++sequence;

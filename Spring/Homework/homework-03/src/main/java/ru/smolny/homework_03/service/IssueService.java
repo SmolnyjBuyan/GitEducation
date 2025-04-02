@@ -1,13 +1,18 @@
 package ru.smolny.homework_03.service;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.smolny.homework_03.api.IssueRequest;
 import ru.smolny.homework_03.exception.*;
+import ru.smolny.homework_03.model.Book;
 import ru.smolny.homework_03.model.Issue;
+import ru.smolny.homework_03.model.Reader;
 import ru.smolny.homework_03.repository.BookRepository;
 import ru.smolny.homework_03.repository.IssueRepository;
 import ru.smolny.homework_03.repository.ReaderRepository;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -16,11 +21,23 @@ public class IssueService {
     private final ReaderRepository readerRepository;
     private final IssueRepository issueRepository;
 
-    public Issue issue(IssueRequest request) {
-        checkBook(request.getBookId());
-        checkReader(request.getReaderId());
+    @PostConstruct
+    private void generateData() {
+        issue(new IssueRequest(1, 2));
+        issue(new IssueRequest(2, 1));
+        issue(new IssueRequest(1, 3));
+    }
 
-        Issue issue = new Issue(request.getBookId(), request.getReaderId());
+    public Issue issue(IssueRequest request) {
+        Book book = bookRepository.getById(request.getBookId())
+                .orElseThrow(() -> new BookNotFoundException(request.getBookId()));
+        if (issueRepository.isBookIssued(book)) throw new BookAlreadyOnHandException();
+
+        Reader reader = readerRepository.getById(request.getReaderId())
+                .orElseThrow(() -> new ReaderNotFoundException(request.getReaderId()));
+        if (issueRepository.isMaxBooksOnHand(reader)) throw new BookLimitException();
+
+        Issue issue = new Issue(book, reader);
         issueRepository.save(issue);
         return issue;
     }
@@ -30,14 +47,8 @@ public class IssueService {
                 .orElseThrow(() -> new IssueNotFoundException(id));
     }
 
-    private void checkBook(long id) {
-        bookRepository.getById(id).orElseThrow(() -> new BookNotFoundException(id));
-        if (issueRepository.isBookIssued(id)) throw new BookAlreadyOnHandException();
-    }
-
-    private void checkReader(long id) {
-        readerRepository.getById(id).orElseThrow(() -> new ReaderNotFoundException(id));
-        if (issueRepository.isMaxBooksOnHand(id)) throw new BookLimitException();
+    public List<Issue> getAll() {
+        return issueRepository.getAll();
     }
 
     public Issue returnBook(long id) {

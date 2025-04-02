@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Readers</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div class="flex-center">
+<table class="styled-table">
+    <caption>Читатели</caption>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Имя</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="reader: ${readers}">
+        <td><a th:href="@{/ui/reader/{id}(id=${reader.id})}"th:text="${reader.id}"></a>
+        </td>
+        <td th:text="${reader.name}"></td>
+    </tr>
+    </tbody>
+</table>
+</div>
+</body>
+</html>

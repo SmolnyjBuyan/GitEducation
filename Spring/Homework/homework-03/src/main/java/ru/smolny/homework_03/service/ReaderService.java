@@ -20,6 +20,10 @@ public class ReaderService {
         return readerRepository.getById(id).orElseThrow(() -> new ReaderNotFoundException(id));
     }
 
+    public List<Reader> getAll() {
+        return readerRepository.getAll();
+    }
+
     public void deleteById(long id) {
         if (!readerRepository.deleteById(id)) throw new ReaderNotFoundException(id);
     }
@@ -30,7 +34,7 @@ public class ReaderService {
 
     public List<Issue> getIssuesByReaderId(long id) {
         Reader reader = getById(id);
-        return issueRepository.getByReaderId(reader.getId());
+        return issueRepository.getByReader(reader);
     }
 
 }

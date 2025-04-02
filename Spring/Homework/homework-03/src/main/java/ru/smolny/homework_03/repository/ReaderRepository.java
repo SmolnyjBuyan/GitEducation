@@ -30,6 +30,10 @@ public class ReaderRepository {
         return readers.stream().filter(reader -> reader.getId() == id).findFirst();
     }
 
+    public List<Reader> getAll() {
+        return readers;
+    }
+
     public boolean deleteById(long id) {
         return readers.removeIf(reader -> reader.getId() == id);
     }
