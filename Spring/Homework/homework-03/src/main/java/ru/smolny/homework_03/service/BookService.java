@@ -1,11 +1,13 @@
 package ru.smolny.homework_03.service;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.smolny.homework_03.exception.BookAlreadyExistsException;
 import ru.smolny.homework_03.exception.BookNotFoundException;
 import ru.smolny.homework_03.model.Book;
 import ru.smolny.homework_03.repository.BookRepository;
+import ru.smolny.homework_03.repository.OldBookRepository;
 
 import java.util.List;
 
@@ -15,19 +17,26 @@ public class BookService {
     private final BookRepository bookRepository;
 
     public Book getById(long id) {
-        return bookRepository.getById(id).orElseThrow(() -> new BookNotFoundException(id));
+        return bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException(id));
     }
 
     public List<Book> getAll() {
-        return bookRepository.getAll();
+        return bookRepository.findAll();
     }
 
     public void deleteById(long id) {
-        if (!bookRepository.deleteById(id)) throw new BookNotFoundException(id);
+        bookRepository.deleteById(id);
     }
 
     public Book create(String title) {
-        if (bookRepository.getByTitle(title).isPresent()) throw new BookAlreadyExistsException(title);
-        return bookRepository.create(title);
+        if (bookRepository.existsByTitleIgnoreCase(title)) throw new BookAlreadyExistsException(title);
+        return bookRepository.save(new Book(title));
+    }
+
+    @PostConstruct
+    private void generateDate() {
+        create("Война и Мир");
+        create("Мертвые души");
+        create("Философия JAVA");
     }
 }

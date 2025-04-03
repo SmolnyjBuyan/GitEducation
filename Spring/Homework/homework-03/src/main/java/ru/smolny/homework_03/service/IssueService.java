@@ -9,6 +9,7 @@ import ru.smolny.homework_03.model.Book;
 import ru.smolny.homework_03.model.Issue;
 import ru.smolny.homework_03.model.Reader;
 import ru.smolny.homework_03.repository.BookRepository;
+import ru.smolny.homework_03.repository.OldBookRepository;
 import ru.smolny.homework_03.repository.IssueRepository;
 import ru.smolny.homework_03.repository.ReaderRepository;
 
@@ -21,15 +22,15 @@ public class IssueService {
     private final ReaderRepository readerRepository;
     private final IssueRepository issueRepository;
 
-    @PostConstruct
-    private void generateData() {
-        issue(new IssueRequest(1, 2));
-        issue(new IssueRequest(2, 1));
-        issue(new IssueRequest(1, 3));
-    }
+//    @PostConstruct
+//    private void generateData() {
+//        issue(new IssueRequest(1, 2));
+//        issue(new IssueRequest(2, 1));
+//        issue(new IssueRequest(1, 3));
+//    }
 
     public Issue issue(IssueRequest request) {
-        Book book = bookRepository.getById(request.getBookId())
+        Book book = bookRepository.findById(request.getBookId())
                 .orElseThrow(() -> new BookNotFoundException(request.getBookId()));
         if (issueRepository.isBookIssued(book)) throw new BookAlreadyOnHandException();
 

@@ -31,7 +31,7 @@ public class BookRestController {
 
     @PostMapping
     public ResponseEntity<Book> create(@Valid @RequestBody BookRequest request, UriComponentsBuilder uriBuilder) {
-        Book book = bookService.create(request.getTitle());
+        Book book = bookService.create(request.getTitle().trim());
         URI uri = uriBuilder.path("/book/{id}").buildAndExpand(book.getId()).toUri();
         return ResponseEntity.created(uri).body(book);
     }

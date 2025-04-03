@@ -1,48 +1,63 @@
 package ru.smolny.homework_03.model;
 
-import lombok.Data;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.Locale;
 
-@Data
+@Entity
+@Table(name = "issues")
+@Getter @Setter @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Issue {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(
             "d MMMM yyyy 'г.' HH:mm:ss",
-            new Locale("ru"));;
+            new Locale("ru"));
 
-    private static long sequence;
-    private final long id;
-    private final Book book;
-    private final Reader reader;
-    private final LocalDateTime issuedAt;
-    private LocalDateTime returnedAt;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id", nullable = false)
+    private Book book;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reader_id", nullable = false)
+    private Reader reader;
+
+    @Setter(AccessLevel.NONE)
+    @Column(name = "issue_date", nullable = false, updatable = false)
+    private LocalDateTime issueDate;
+
+    @Column(name = "return_date")
+    private LocalDateTime returnDate;
 
 
     public Issue(Book book, Reader reader) {
-        id = ++sequence;
         this.book = book;
         this.reader = reader;
-        issuedAt = LocalDateTime.now();
+        issueDate = LocalDateTime.now();
     }
 
     public void returnBook() {
-        if (returnedAt == null) returnedAt = LocalDateTime.now();
+        if (returnDate == null) returnDate = LocalDateTime.now();
     }
 
     public boolean isReturned() {
-        return returnedAt != null;
+        return returnDate != null;
     }
 
     public String getIssuedDateOnRu() {
-        return issuedAt.format(FORMATTER);
+        return issueDate.format(FORMATTER);
     }
 
     public String getReturnedDateOnRu() {
-        if (returnedAt == null) return null;
-        return returnedAt.format(FORMATTER);
+        if (returnDate == null) return null;
+        return returnDate.format(FORMATTER);
     }
 }
