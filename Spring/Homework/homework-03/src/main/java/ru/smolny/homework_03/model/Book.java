@@ -21,7 +21,12 @@ public class Book {
     @Column(nullable = false, length = 64)
     private String title;
 
-    @OneToMany(mappedBy = "book")
+    @OneToMany(mappedBy = "book", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Issue> issues;
+
+    @JsonIgnore
+    public boolean isAvailable() {
+        return issues.stream().noneMatch(Issue::isNotReturned);
+    }
 }

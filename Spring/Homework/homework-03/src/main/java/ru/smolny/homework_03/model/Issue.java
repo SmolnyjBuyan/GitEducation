@@ -22,11 +22,11 @@ public class Issue {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "reader_id", nullable = false)
     private Reader reader;
 
@@ -44,12 +44,12 @@ public class Issue {
         issueDate = LocalDateTime.now();
     }
 
-    public void returnBook() {
-        if (returnDate == null) returnDate = LocalDateTime.now();
+    public boolean isNotReturned() {
+        return returnDate == null;
     }
 
-    public boolean isReturned() {
-        return returnDate != null;
+    public void returnBook() {
+        if (isNotReturned()) returnDate = LocalDateTime.now();
     }
 
     public String getIssuedDateOnRu() {
@@ -57,7 +57,7 @@ public class Issue {
     }
 
     public String getReturnedDateOnRu() {
-        if (returnDate == null) return null;
+        if (isNotReturned()) return null;
         return returnDate.format(FORMATTER);
     }
 }

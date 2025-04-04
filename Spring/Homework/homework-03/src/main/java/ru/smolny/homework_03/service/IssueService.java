@@ -9,7 +9,6 @@ import ru.smolny.homework_03.model.Book;
 import ru.smolny.homework_03.model.Issue;
 import ru.smolny.homework_03.model.Reader;
 import ru.smolny.homework_03.repository.BookRepository;
-import ru.smolny.homework_03.repository.OldBookRepository;
 import ru.smolny.homework_03.repository.IssueRepository;
 import ru.smolny.homework_03.repository.ReaderRepository;
 
@@ -22,21 +21,14 @@ public class IssueService {
     private final ReaderRepository readerRepository;
     private final IssueRepository issueRepository;
 
-//    @PostConstruct
-//    private void generateData() {
-//        issue(new IssueRequest(1, 2));
-//        issue(new IssueRequest(2, 1));
-//        issue(new IssueRequest(1, 3));
-//    }
-
     public Issue issue(IssueRequest request) {
         Book book = bookRepository.findById(request.getBookId())
                 .orElseThrow(() -> new BookNotFoundException(request.getBookId()));
-        if (issueRepository.isBookIssued(book)) throw new BookAlreadyOnHandException();
+        if (!book.isAvailable()) throw new BookAlreadyOnHandException();
 
-        Reader reader = readerRepository.getById(request.getReaderId())
+        Reader reader = readerRepository.findById(request.getReaderId())
                 .orElseThrow(() -> new ReaderNotFoundException(request.getReaderId()));
-        if (issueRepository.isMaxBooksOnHand(reader)) throw new BookLimitException();
+        if (reader.isMaxBooksOnHand()) throw new BookLimitException();
 
         Issue issue = new Issue(book, reader);
         issueRepository.save(issue);
@@ -44,17 +36,19 @@ public class IssueService {
     }
 
     public Issue getById(long id) {
-        return issueRepository.getById(id)
-                .orElseThrow(() -> new IssueNotFoundException(id));
+        Issue issue = issueRepository.findById(id).orElseThrow(() -> new IssueNotFoundException(id));
+        return issue;
     }
 
     public List<Issue> getAll() {
-        return issueRepository.getAll();
+        return issueRepository.findAll();
     }
 
     public Issue returnBook(long id) {
         Issue issue = getById(id);
         issue.returnBook();
+        Book book = issue.getBook();
+        bookRepository.save(book);
         return issue;
     }
 }

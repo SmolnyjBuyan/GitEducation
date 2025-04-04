@@ -2,12 +2,13 @@ package ru.smolny.homework_03.service;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.smolny.homework_03.exception.BookAlreadyExistsException;
 import ru.smolny.homework_03.exception.BookNotFoundException;
 import ru.smolny.homework_03.model.Book;
 import ru.smolny.homework_03.repository.BookRepository;
-import ru.smolny.homework_03.repository.OldBookRepository;
 
 import java.util.List;
 
@@ -31,12 +32,5 @@ public class BookService {
     public Book create(String title) {
         if (bookRepository.existsByTitleIgnoreCase(title)) throw new BookAlreadyExistsException(title);
         return bookRepository.save(new Book(title));
-    }
-
-    @PostConstruct
-    private void generateDate() {
-        create("Война и Мир");
-        create("Мертвые души");
-        create("Философия JAVA");
     }
 }

@@ -33,7 +33,7 @@ public class ReaderRestController {
 
     @PostMapping
     public ResponseEntity<Reader> create(@Valid @RequestBody ReaderRequest request, UriComponentsBuilder uriBuilder) {
-        Reader reader = readerService.create(request.getName());
+        Reader reader = readerService.create(request.getName().trim());
         URI uri = uriBuilder.path("/reader/{id}").buildAndExpand(reader.getId()).toUri();
         return ResponseEntity.created(uri).body(reader);
     }
