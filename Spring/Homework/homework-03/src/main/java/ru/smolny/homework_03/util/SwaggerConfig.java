@@ -1,4 +1,4 @@
-package ru.smolny.homework_03;
+package ru.smolny.homework_03.util;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;

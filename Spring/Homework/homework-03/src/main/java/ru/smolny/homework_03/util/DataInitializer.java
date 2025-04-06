@@ -1,11 +1,9 @@
-package ru.smolny.homework_03;
+package ru.smolny.homework_03.util;
 
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import ru.smolny.homework_03.api.IssueRequest;
 import ru.smolny.homework_03.model.Book;
 import ru.smolny.homework_03.model.Issue;
 import ru.smolny.homework_03.model.Reader;

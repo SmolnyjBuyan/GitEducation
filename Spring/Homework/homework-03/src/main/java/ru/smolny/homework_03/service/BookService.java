@@ -1,12 +1,11 @@
 package ru.smolny.homework_03.service;
 
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import ru.smolny.homework_03.dto.BookResponse;
 import ru.smolny.homework_03.exception.BookAlreadyExistsException;
 import ru.smolny.homework_03.exception.BookNotFoundException;
+import ru.smolny.homework_03.mapper.BookMapper;
 import ru.smolny.homework_03.model.Book;
 import ru.smolny.homework_03.repository.BookRepository;
 
@@ -16,21 +15,25 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookService {
     private final BookRepository bookRepository;
+    private final BookMapper mapper;
 
-    public Book getById(long id) {
-        return bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException(id));
+    public BookResponse getById(long id) {
+        Book book = bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException(id));
+        return mapper.toBookResponse(book);
     }
 
-    public List<Book> getAll() {
-        return bookRepository.findAll();
+    public List<BookResponse> getAll() {
+        List<Book> books = bookRepository.findAll();
+        return mapper.toReaderResponseList(books);
     }
 
     public void deleteById(long id) {
         bookRepository.deleteById(id);
     }
 
-    public Book create(String title) {
+    public BookResponse create(String title) {
         if (bookRepository.existsByTitleIgnoreCase(title)) throw new BookAlreadyExistsException(title);
-        return bookRepository.save(new Book(title));
+        Book book = bookRepository.save(new Book(title));
+        return mapper.toBookResponse(book);
     }
 }

@@ -7,26 +7,20 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 
 @Entity
 @Table(name = "issues")
 @Getter @Setter @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Issue {
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(
-            "d MMMM yyyy 'г.' HH:mm:ss",
-            new Locale("ru"));
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reader_id", nullable = false)
     private Reader reader;
 
@@ -36,7 +30,6 @@ public class Issue {
 
     @Column(name = "return_date")
     private LocalDateTime returnDate;
-
 
     public Issue(Book book, Reader reader) {
         this.book = book;
@@ -50,14 +43,5 @@ public class Issue {
 
     public void returnBook() {
         if (isNotReturned()) returnDate = LocalDateTime.now();
-    }
-
-    public String getIssuedDateOnRu() {
-        return issueDate.format(FORMATTER);
-    }
-
-    public String getReturnedDateOnRu() {
-        if (isNotReturned()) return null;
-        return returnDate.format(FORMATTER);
     }
 }

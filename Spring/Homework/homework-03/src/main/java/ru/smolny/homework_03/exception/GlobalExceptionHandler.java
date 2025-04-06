@@ -14,8 +14,7 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<ErrorsResponse> handleValidationException(
-            ConstraintViolationException ex) {
+    public ResponseEntity<ErrorsResponse> handleValidationException(ConstraintViolationException ex) {
 
         List<String> errors = ex.getConstraintViolations().stream()
                 .map(violation -> violation.getPropertyPath() + ": " + violation.getMessage())

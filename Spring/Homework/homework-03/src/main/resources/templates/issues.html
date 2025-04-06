@@ -24,10 +24,10 @@
     <tbody>
     <tr th:each="issue: ${issues}">
         <td th:text="${issue.id}"></td>
-        <td th:text="${issue.book.title}"></td>
-        <td th:text="${issue.reader.name}"></td>
-        <td th:text="${issue.getIssuedDateOnRu()}"></td>
-        <td th:text="${issue.getReturnedDateOnRu()}"></td>
+        <td th:text="${issue.bookTitle}"></td>
+        <td th:text="${issue.readerName}"></td>
+        <td th:text="${issue.getFormattedIssueDate}"></td>
+        <td th:text="${issue.getFormattedReturnDate}"></td>
     </tr>
     </tbody>
 </table>

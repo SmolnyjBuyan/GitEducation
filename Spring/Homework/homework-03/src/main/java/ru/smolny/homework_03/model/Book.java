@@ -12,7 +12,6 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @RequiredArgsConstructor
 public class Book {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,11 +20,9 @@ public class Book {
     @Column(nullable = false, length = 64)
     private String title;
 
-    @OneToMany(mappedBy = "book", fetch = FetchType.EAGER)
-    @JsonIgnore
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
     private List<Issue> issues;
 
-    @JsonIgnore
     public boolean isAvailable() {
         return issues.stream().noneMatch(Issue::isNotReturned);
     }

@@ -1,10 +1,10 @@
-package ru.smolny.homework_03.api;
+package ru.smolny.homework_03.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+import lombok.Value;
 
-@Data
+@Value
 public class ReaderRequest {
     @NotBlank(message =  "Name is mandatory")
-    private final String name;
+    String name;
 }
