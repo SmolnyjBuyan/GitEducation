@@ -1,5 +1,7 @@
 package ru.smolny.homework_03.api;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
@@ -16,22 +18,26 @@ import java.net.URI;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/book")
+@Tag(name = "Book")
 @Validated
 public class BookRestController {
     private final BookService bookService;
 
     @GetMapping("/{id}")
+    @Operation(summary = "get book by id", description = "Получить данные о книге по ее ID")
     public ResponseEntity<BookResponse> getById(@PathVariable @Min(value = 1) long id) {
         return ResponseEntity.ok(bookService.getById(id));
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "delete book by id", description = "Удалить книгу по ее ID")
     public ResponseEntity<Void> deleteById(@PathVariable @Min(value = 1) long id) {
         bookService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping
+    @Operation(summary = "create book", description = "Добавить новую книгу в систему")
     public ResponseEntity<BookResponse> create(
             @Valid @RequestBody BookRequest request, UriComponentsBuilder uriBuilder) {
         BookResponse bookResponse = bookService.create(request.getTitle().trim());

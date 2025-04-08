@@ -1,5 +1,11 @@
 package ru.smolny.homework_03.api;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import ru.smolny.homework_03.dto.IssueResponse;
 import ru.smolny.homework_03.dto.ReaderRequest;
 import ru.smolny.homework_03.dto.ReaderResponse;
+import ru.smolny.homework_03.exception.ErrorResponse;
 import ru.smolny.homework_03.model.Issue;
 import ru.smolny.homework_03.model.Reader;
 import ru.smolny.homework_03.service.ReaderService;
@@ -20,21 +27,46 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/reader")
+@Tag(name = "Reader")
 @Validated
 public class ReaderRestController {
     private final ReaderService readerService;
     @GetMapping("/{id}")
+    @Operation(summary = "get reader by id", description = "Получить данные о читателе по его ID")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Читатель успешно найден",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ReaderResponse.class))),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Невалидный ID",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Читатель не найден",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))
+            )}
+    )
     public ResponseEntity<ReaderResponse> getById(@PathVariable @Min(value = 1) long id) {
         return ResponseEntity.ok(readerService.getById(id));
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "delete reader by id", description = "Удалить читателя по его ID")
     public ResponseEntity<Void> deleteById(@PathVariable @Min(value = 1) long id) {
         readerService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping
+    @Operation(summary = "create reader", description = "Добавить нового читателя в систему")
     public ResponseEntity<ReaderResponse> create(
             @Valid @RequestBody ReaderRequest request, UriComponentsBuilder uriBuilder) {
         ReaderResponse readerResponse = readerService.create(request.getName().trim());
@@ -43,6 +75,7 @@ public class ReaderRestController {
     }
 
     @GetMapping("{id}/issue")
+    @Operation(summary = "get issues by reader id", description = "Получить все актуальные выдачи книг читателю по его ID")
     public ResponseEntity<List<IssueResponse>> getIssuesByReaderId(@PathVariable @Min(value = 1) long id) {
         return ResponseEntity.ok(readerService.getIssuesByReaderId(id));
     }
