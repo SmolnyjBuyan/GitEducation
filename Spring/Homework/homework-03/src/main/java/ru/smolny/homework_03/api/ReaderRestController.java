@@ -16,9 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import ru.smolny.homework_03.dto.IssueResponse;
 import ru.smolny.homework_03.dto.ReaderRequest;
 import ru.smolny.homework_03.dto.ReaderResponse;
-import ru.smolny.homework_03.exception.ErrorResponse;
-import ru.smolny.homework_03.model.Issue;
-import ru.smolny.homework_03.model.Reader;
+import ru.smolny.homework_03.exception.*;
 import ru.smolny.homework_03.service.ReaderService;
 
 import java.net.URI;
@@ -31,6 +29,7 @@ import java.util.List;
 @Validated
 public class ReaderRestController {
     private final ReaderService readerService;
+
     @GetMapping("/{id}")
     @Operation(summary = "get reader by id", description = "Получить данные о читателе по его ID")
     @ApiResponses(value = {
@@ -42,7 +41,7 @@ public class ReaderRestController {
                             schema = @Schema(implementation = ReaderResponse.class))),
             @ApiResponse(
                     responseCode = "400",
-                    description = "Невалидный ID",
+                    description = "Ошибка валидации (некорректный ID)",
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class))),
@@ -59,6 +58,18 @@ public class ReaderRestController {
     }
 
     @DeleteMapping("/{id}")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "Читатель успешно удален"),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Ошибка валидации (некорректный ID)",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))
+            )}
+    )
     @Operation(summary = "delete reader by id", description = "Удалить читателя по его ID")
     public ResponseEntity<Void> deleteById(@PathVariable @Min(value = 1) long id) {
         readerService.deleteById(id);
@@ -67,6 +78,21 @@ public class ReaderRestController {
 
     @PostMapping
     @Operation(summary = "create reader", description = "Добавить нового читателя в систему")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "Читатель успешно добавлен",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ReaderResponse.class))),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Ошибка валидации (некорректное имя)",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)
+                    ))
+    })
     public ResponseEntity<ReaderResponse> create(
             @Valid @RequestBody ReaderRequest request, UriComponentsBuilder uriBuilder) {
         ReaderResponse readerResponse = readerService.create(request.getName().trim());
@@ -76,6 +102,27 @@ public class ReaderRestController {
 
     @GetMapping("{id}/issue")
     @Operation(summary = "get issues by reader id", description = "Получить все актуальные выдачи книг читателю по его ID")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Список выдач книг читателю успешно найден",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = IssueResponse.class, type = "array"))),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Ошибка валидации (некорректный ID)",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Читатель не найден",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))
+            )}
+    )
     public ResponseEntity<List<IssueResponse>> getIssuesByReaderId(@PathVariable @Min(value = 1) long id) {
         return ResponseEntity.ok(readerService.getIssuesByReaderId(id));
     }

@@ -22,3 +22,11 @@ spring:
 application:
   issue:
     max-allowed-books: 3
+
+springdoc:
+  swagger-ui:
+    disable-swagger-default-url: true
+    syntax-highlight:
+      activated: true
+  api-docs:
+    resolve-schema-properties: true
