@@ -1,6 +1,5 @@
 package ru.smolny.homework_03.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 

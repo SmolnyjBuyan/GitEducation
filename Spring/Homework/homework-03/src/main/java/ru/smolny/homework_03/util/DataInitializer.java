@@ -6,16 +6,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.smolny.homework_03.model.Book;
 import ru.smolny.homework_03.model.Issue;
-import ru.smolny.homework_03.model.Reader;
+import ru.smolny.homework_03.model.User;
 import ru.smolny.homework_03.repository.BookRepository;
 import ru.smolny.homework_03.repository.IssueRepository;
-import ru.smolny.homework_03.repository.ReaderRepository;
+import ru.smolny.homework_03.repository.UserRepository;
 
 @Configuration
 @RequiredArgsConstructor
 public class DataInitializer {
     private final BookRepository bookRepository;
-    private final ReaderRepository readerRepository;
+    private final UserRepository readerRepository;
     private final IssueRepository issueRepository;
 
     @Bean
@@ -25,9 +25,9 @@ public class DataInitializer {
             Book book2 = bookRepository.save(new Book("Мертвые души"));
             Book book3 = bookRepository.save(new Book("Философия JAVA"));
 
-            Reader reader1 = readerRepository.save(new Reader("Андрей"));
-            Reader reader2 = readerRepository.save(new Reader("Дарья"));
-            Reader reader3 = readerRepository.save(new Reader("Николай"));
+            User reader1 = readerRepository.save(new User("Андрей"));
+            User reader2 = readerRepository.save(new User("Дарья"));
+            User reader3 = readerRepository.save(new User("Николай"));
 
             issueRepository.save(new Issue(book2, reader1));
             issueRepository.save(new Issue(book1, reader2));

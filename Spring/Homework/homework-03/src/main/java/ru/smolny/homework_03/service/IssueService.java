@@ -10,10 +10,10 @@ import ru.smolny.homework_03.exception.*;
 import ru.smolny.homework_03.mapper.IssueMapper;
 import ru.smolny.homework_03.model.Book;
 import ru.smolny.homework_03.model.Issue;
-import ru.smolny.homework_03.model.Reader;
+import ru.smolny.homework_03.model.User;
 import ru.smolny.homework_03.repository.BookRepository;
 import ru.smolny.homework_03.repository.IssueRepository;
-import ru.smolny.homework_03.repository.ReaderRepository;
+import ru.smolny.homework_03.repository.UserRepository;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public class IssueService {
     private int maxAllowedBooks;
 
     private final BookRepository bookRepository;
-    private final ReaderRepository readerRepository;
+    private final UserRepository readerRepository;
     private final IssueRepository issueRepository;
     private final IssueMapper issueMapper;
 
@@ -33,8 +33,8 @@ public class IssueService {
                 .orElseThrow(() -> new BookNotFoundException(request.getBookId()));
         if (!book.isAvailable()) throw new BookAlreadyOnHandException();
 
-        Reader reader = readerRepository.findById(request.getReaderId())
-                .orElseThrow(() -> new ReaderNotFoundException(request.getReaderId()));
+        User reader = readerRepository.findById(request.getReaderId())
+                .orElseThrow(() -> new UserNotFoundException(request.getReaderId()));
         if (isMaxBooksOnHand(reader)) throw new BookLimitException();
 
         Issue issue = new Issue(book, reader);
@@ -59,7 +59,7 @@ public class IssueService {
         return issueMapper.toIssueResponse(issue);
     }
 
-    private boolean isMaxBooksOnHand(Reader reader) {
+    private boolean isMaxBooksOnHand(User reader) {
         return reader.getNotReturnedIssues().size() >= maxAllowedBooks;
     }
 }

@@ -21,8 +21,8 @@ public class Issue {
     private Book book;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reader_id", nullable = false)
-    private Reader reader;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @Setter(AccessLevel.NONE)
     @Column(name = "issue_date", nullable = false, updatable = false)
@@ -31,9 +31,9 @@ public class Issue {
     @Column(name = "return_date")
     private LocalDateTime returnDate;
 
-    public Issue(Book book, Reader reader) {
+    public Issue(Book book, User user) {
         this.book = book;
-        this.reader = reader;
+        this.user = user;
         issueDate = LocalDateTime.now();
     }
 
