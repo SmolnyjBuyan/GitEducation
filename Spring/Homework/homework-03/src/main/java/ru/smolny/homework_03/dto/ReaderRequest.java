@@ -7,11 +7,12 @@ import lombok.Value;
 @Value
 @Schema(name = "Читатель-Запрос")
 public class ReaderRequest {
-    @Schema(name = "Имя")
     @NotBlank(message =  "Name is mandatory")
     String name;
 
-    @Schema(name = "Пароль")
     @NotBlank(message =  "Password is mandatory")
     String password;
+
+    @NotBlank(message =  "Firstname is mandatory")
+    String firstname;
 }

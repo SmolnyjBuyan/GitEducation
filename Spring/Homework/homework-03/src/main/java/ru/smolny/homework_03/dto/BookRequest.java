@@ -8,6 +8,5 @@ import lombok.Value;
 @Schema(name = "Книга-Запрос")
 public class BookRequest {
     @NotBlank(message =  "Title is mandatory")
-    @Schema(name = "Название")
     String title;
 }

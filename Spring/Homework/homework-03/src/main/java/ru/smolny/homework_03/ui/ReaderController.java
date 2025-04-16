@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.smolny.homework_03.dto.IssueResponse;
 import ru.smolny.homework_03.dto.ReaderResponse;
+import ru.smolny.homework_03.mapper.ReaderMapper;
 import ru.smolny.homework_03.model.User;
 import ru.smolny.homework_03.service.ReaderService;
 
@@ -19,10 +20,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReaderController {
     private final ReaderService readerService;
+    private final ReaderMapper readerMapper;
 
     @GetMapping
     public String getReaders(Model model) {
-        model.addAttribute("readers", readerService.getAll());
+        List<ReaderResponse> readers = readerMapper.toReaderResponseList(readerService.getAll());
+        model.addAttribute("readers", readers);
         return "readers";
     }
 

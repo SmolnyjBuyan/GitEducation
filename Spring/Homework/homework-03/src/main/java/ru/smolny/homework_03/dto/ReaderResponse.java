@@ -11,7 +11,12 @@ public class ReaderResponse {
     @Schema(name = "Идентификатор")
     @Min(1)
     long id;
+
+    @Schema(name = "Логин")
+    @NotBlank
+    String username;
+
     @Schema(name = "Имя")
     @NotBlank
-    String name;
+    String firstname;
 }

@@ -22,7 +22,7 @@
     <tr th:each="reader: ${readers}">
         <td><a th:href="@{/ui/reader/{id}(id=${reader.id})}"th:text="${reader.id}"></a>
         </td>
-        <td th:text="${reader.name}"></td>
+        <td th:text="${reader.firstname}"></td>
     </tr>
     </tbody>
 </table>

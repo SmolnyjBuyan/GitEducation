@@ -7,10 +7,8 @@ import lombok.Value;
 @Value
 @Schema(name = "Выдача-Запрос")
 public class IssueRequest {
-    @Schema(name = "Идентификатор читателя")
     @Min(value = 1)
     long readerId;
-    @Schema(name = "Идентификатор книги")
     @Min(value = 1)
     long bookId;
 }

@@ -9,12 +9,13 @@ import ru.smolny.homework_03.repository.BookRepository;
 import ru.smolny.homework_03.repository.IssueRepository;
 import ru.smolny.homework_03.repository.RoleRepository;
 import ru.smolny.homework_03.repository.UserRepository;
+import ru.smolny.homework_03.service.ReaderService;
 
 @Configuration
 @RequiredArgsConstructor
 public class DataInitializer {
     private final BookRepository bookRepository;
-    private final UserRepository userRepository;
+    private final ReaderService readerService;
     private final IssueRepository issueRepository;
     private final RoleRepository roleRepository;
 
@@ -25,12 +26,17 @@ public class DataInitializer {
             Book book2 = bookRepository.save(new Book("Мертвые души"));
             Book book3 = bookRepository.save(new Book("Философия JAVA"));
 
-            roleRepository.save(new Role(RoleType.READER));
-            roleRepository.save(new Role(RoleType.ADMIN));
+            Role reader = new Role();
+            reader.setName(RoleType.READER);
 
-            User reader1 = userRepository.save(new User("Андрей", "1234"));
-            User reader2 = userRepository.save(new User("Дарья", "1234"));
-            User reader3 = userRepository.save(new User("Николай", "1234"));
+            Role adminRole = new Role();
+            adminRole.setName(RoleType.ADMIN);
+            roleRepository.save(reader);
+            roleRepository.save(adminRole);
+
+            User reader1 = readerService.create("andrey", "1234", "Андрей");
+            User reader2 = readerService.create("darya", "1234", "Дарья");
+            User reader3 = readerService.create("nikolay", "1234", "Николай");
 
             issueRepository.save(new Issue(book2, reader1));
             issueRepository.save(new Issue(book1, reader2));
