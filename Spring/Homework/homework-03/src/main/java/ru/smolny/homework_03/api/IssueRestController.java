@@ -18,6 +18,8 @@ import ru.smolny.homework_03.dto.IssueRequest;
 import ru.smolny.homework_03.dto.IssueResponse;
 import ru.smolny.homework_03.dto.ReaderResponse;
 import ru.smolny.homework_03.exception.ErrorResponse;
+import ru.smolny.homework_03.mapper.IssueMapper;
+import ru.smolny.homework_03.model.Issue;
 import ru.smolny.homework_03.service.IssueService;
 
 import java.net.URI;
@@ -30,6 +32,7 @@ import java.net.URI;
 @Validated
 public class IssueRestController {
     private final IssueService issueService;
+    private final IssueMapper issueMapper;
 
     @GetMapping("/{id}")
     @Operation(summary = "get issue by id", description = "Получить данные о выдаче по ее ID")
@@ -55,7 +58,9 @@ public class IssueRestController {
             )
     })
     public ResponseEntity<IssueResponse> getById(@PathVariable @Min(value = 1) long id) {
-        return ResponseEntity.ok(issueService.getById(id));
+        Issue issue = issueService.getById(id);
+        IssueResponse response = issueMapper.toIssueResponse(issue);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping
@@ -89,9 +94,10 @@ public class IssueRestController {
             )
     })
     public ResponseEntity<IssueResponse> issueBook(@RequestBody @Valid IssueRequest request, UriComponentsBuilder uriBuilder) {
-        IssueResponse issue = issueService.issue(request);
-        URI uri = uriBuilder.path("/issue/{id}").buildAndExpand(issue.getId()).toUri();
-        return ResponseEntity.created(uri).body(issue);
+        Issue issue = issueService.issue(request);
+        IssueResponse response = issueMapper.toIssueResponse(issue);
+        URI uri = uriBuilder.path("/issue/{id}").buildAndExpand(response.getId()).toUri();
+        return ResponseEntity.created(uri).body(response);
     }
 
     @PutMapping("{id}")
@@ -118,6 +124,8 @@ public class IssueRestController {
             )
     })
     public ResponseEntity<IssueResponse> returnBook(@PathVariable @Min(value = 1) long id) {
-        return ResponseEntity.ok(issueService.returnBook(id));
+        Issue issue = issueService.returnBook(id);
+        IssueResponse response = issueMapper.toIssueResponse(issue);
+        return ResponseEntity.ok(response);
     }
 }

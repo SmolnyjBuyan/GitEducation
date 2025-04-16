@@ -23,40 +23,35 @@ public class IssueService {
     @Value("${application.issue.max-allowed-books:1}")
     private int maxAllowedBooks;
 
-    private final BookRepository bookRepository;
-    private final UserRepository readerRepository;
-    private final IssueRepository issueRepository;
-    private final IssueMapper issueMapper;
+    private final BookService bookService;
+    private final ReaderService readerService;
 
-    public IssueResponse issue(IssueRequest request) {
-        Book book = bookRepository.findById(request.getBookId())
-                .orElseThrow(() -> new BookNotFoundException(request.getBookId()));
+    private final IssueRepository issueRepository;
+
+    public Issue issue(IssueRequest request) {
+        Book book = bookService.getById(request.getBookId());
         if (!book.isAvailable()) throw new BookAlreadyOnHandException();
 
-        User reader = readerRepository.findById(request.getReaderId())
-                .orElseThrow(() -> new UserNotFoundException(request.getReaderId()));
+        User reader = readerService.getById(request.getReaderId());
         if (isMaxBooksOnHand(reader)) throw new BookLimitException();
 
         Issue issue = new Issue(book, reader);
-        issueRepository.save(issue);
-        return issueMapper.toIssueResponse(issue);
+        return issueRepository.save(issue);
     }
 
-    public IssueResponse getById(long id) {
-        Issue issue = issueRepository.findById(id).orElseThrow(() -> new IssueNotFoundException(id));
-        return issueMapper.toIssueResponse(issue);
+    public Issue getById(long id) {
+        return issueRepository.findById(id).orElseThrow(() -> new IssueNotFoundException(id));
     }
 
-    public List<IssueResponse> getAll() {
-        List<Issue> issues = issueRepository.findAll();
-        return issueMapper.toIssueResponseList(issues);
+    public List<Issue> getAll() {
+        return issueRepository.findAll();
     }
 
     @Transactional
-    public IssueResponse returnBook(long id) {
+    public Issue returnBook(long id) {
         Issue issue = issueRepository.findById(id).orElseThrow(() -> new IssueNotFoundException(id));
         issue.returnBook();
-        return issueMapper.toIssueResponse(issue);
+        return issue;
     }
 
     private boolean isMaxBooksOnHand(User reader) {

@@ -2,9 +2,9 @@ package ru.smolny.homework_03.util;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -39,8 +39,10 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.authorizeHttpRequests(authorize -> authorize
-                .anyRequest().authenticated())
+        return http.csrf(AbstractHttpConfigurer::disable).
+                authorizeHttpRequests(authorize -> authorize
+                .requestMatchers("ui/**").authenticated()
+                        .anyRequest().permitAll())
                 .formLogin(form -> form
                         .defaultSuccessUrl("/ui/book"))
                 .build();

@@ -12,8 +12,8 @@ public interface IssueMapper {
 
     @Mapping(source = "book.title", target = "bookTitle")
     @Mapping(source = "book.id", target = "bookId")
-    @Mapping(source = "user.username", target = "userName")
-    @Mapping(source = "user.id", target = "userId")
+    @Mapping(source = "user.username", target = "readerName")
+    @Mapping(source = "user.id", target = "readerId")
     IssueResponse toIssueResponse(Issue issue);
     List<IssueResponse> toIssueResponseList(List<Issue> issues);
 }

@@ -15,25 +15,21 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookService {
     private final BookRepository bookRepository;
-    private final BookMapper mapper;
 
-    public BookResponse getById(long id) {
-        Book book = bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException(id));
-        return mapper.toBookResponse(book);
+    public Book getById(long id) {
+        return bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException(id));
     }
 
-    public List<BookResponse> getAll() {
-        List<Book> books = bookRepository.findAll();
-        return mapper.toReaderResponseList(books);
+    public List<Book> getAll() {
+        return bookRepository.findAll();
     }
 
     public void deleteById(long id) {
         bookRepository.deleteById(id);
     }
 
-    public BookResponse create(String title) {
+    public Book create(String title) {
         if (bookRepository.existsByTitleIgnoreCase(title)) throw new BookAlreadyExistsException(title);
-        Book book = bookRepository.save(new Book(title));
-        return mapper.toBookResponse(book);
+        return bookRepository.save(new Book(title));
     }
 }

@@ -17,6 +17,8 @@ import ru.smolny.homework_03.dto.BookRequest;
 import ru.smolny.homework_03.dto.BookResponse;
 import ru.smolny.homework_03.dto.ReaderResponse;
 import ru.smolny.homework_03.exception.ErrorResponse;
+import ru.smolny.homework_03.mapper.BookMapper;
+import ru.smolny.homework_03.model.Book;
 import ru.smolny.homework_03.service.BookService;
 
 import java.net.URI;
@@ -28,6 +30,7 @@ import java.net.URI;
 @Validated
 public class BookRestController {
     private final BookService bookService;
+    private final BookMapper bookMapper;
 
     @GetMapping("/{id}")
     @Operation(summary = "get book by id", description = "Получить данные о книге по ее ID")
@@ -53,7 +56,9 @@ public class BookRestController {
             )
     })
     public ResponseEntity<BookResponse> getById(@PathVariable @Min(value = 1) long id) {
-        return ResponseEntity.ok(bookService.getById(id));
+        Book book = (bookService.getById(id));
+        BookResponse response = bookMapper.toBookResponse(book);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
@@ -101,8 +106,9 @@ public class BookRestController {
     })
     public ResponseEntity<BookResponse> create(
             @Valid @RequestBody BookRequest request, UriComponentsBuilder uriBuilder) {
-        BookResponse bookResponse = bookService.create(request.getTitle().trim());
-        URI uri = uriBuilder.path("/book/{id}").buildAndExpand(bookResponse.getId()).toUri();
-        return ResponseEntity.created(uri).body(bookResponse);
+        Book book = bookService.create(request.getTitle().trim());
+        BookResponse response = bookMapper.toBookResponse(book);
+        URI uri = uriBuilder.path("/book/{id}").buildAndExpand(response.getId()).toUri();
+        return ResponseEntity.created(uri).body(response);
     }
 }

@@ -17,6 +17,8 @@ import ru.smolny.homework_03.dto.IssueResponse;
 import ru.smolny.homework_03.dto.ReaderRequest;
 import ru.smolny.homework_03.dto.ReaderResponse;
 import ru.smolny.homework_03.exception.*;
+import ru.smolny.homework_03.mapper.ReaderMapper;
+import ru.smolny.homework_03.model.User;
 import ru.smolny.homework_03.service.ReaderService;
 
 import java.net.URI;
@@ -29,6 +31,7 @@ import java.util.List;
 @Validated
 public class ReaderRestController {
     private final ReaderService readerService;
+    private final ReaderMapper readerMapper;
 
     @GetMapping("/{id}")
     @Operation(summary = "get reader by id", description = "Получить данные о читателе по его ID")
@@ -54,7 +57,9 @@ public class ReaderRestController {
             )}
     )
     public ResponseEntity<ReaderResponse> getById(@PathVariable @Min(value = 1) long id) {
-        return ResponseEntity.ok(readerService.getById(id));
+        User reader = readerService.getById(id);
+        ReaderResponse response = readerMapper.toReaderResponse(reader);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
@@ -95,9 +100,10 @@ public class ReaderRestController {
     })
     public ResponseEntity<ReaderResponse> create(
             @Valid @RequestBody ReaderRequest request, UriComponentsBuilder uriBuilder) {
-        ReaderResponse readerResponse = readerService.create(request.getName().trim());
-        URI uri = uriBuilder.path("/reader/{id}").buildAndExpand(readerResponse.getId()).toUri();
-        return ResponseEntity.created(uri).body(readerResponse);
+        User reader = readerService.create(request.getName().trim(), request.getPassword());
+        ReaderResponse response = readerMapper.toReaderResponse(reader);
+        URI uri = uriBuilder.path("/reader/{id}").buildAndExpand(response.getId()).toUri();
+        return ResponseEntity.created(uri).body(response);
     }
 
     @GetMapping("{id}/issue")
