@@ -5,8 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Value;
 
 @Value
-@Schema(name = "Читатель-Запрос")
-public class ReaderRequest {
+public class UserRequest {
     @NotBlank(message =  "Name is mandatory")
     String name;
 

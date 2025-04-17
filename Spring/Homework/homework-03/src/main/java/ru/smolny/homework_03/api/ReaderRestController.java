@@ -14,7 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 import ru.smolny.homework_03.dto.IssueResponse;
-import ru.smolny.homework_03.dto.ReaderRequest;
+import ru.smolny.homework_03.dto.UserRequest;
 import ru.smolny.homework_03.dto.ReaderResponse;
 import ru.smolny.homework_03.exception.*;
 import ru.smolny.homework_03.mapper.ReaderMapper;
@@ -99,7 +99,7 @@ public class ReaderRestController {
                     ))
     })
     public ResponseEntity<ReaderResponse> create(
-            @Valid @RequestBody ReaderRequest request, UriComponentsBuilder uriBuilder) {
+            @Valid @RequestBody UserRequest request, UriComponentsBuilder uriBuilder) {
         User reader = readerService.create(request);
         ReaderResponse response = readerMapper.toReaderResponse(reader);
         URI uri = uriBuilder.path("/reader/{id}").buildAndExpand(response.getId()).toUri();

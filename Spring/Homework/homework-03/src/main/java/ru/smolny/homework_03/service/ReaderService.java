@@ -5,7 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.smolny.homework_03.dto.IssueResponse;
-import ru.smolny.homework_03.dto.ReaderRequest;
+import ru.smolny.homework_03.dto.UserRequest;
 import ru.smolny.homework_03.exception.ReaderNotFoundException;
 import ru.smolny.homework_03.exception.RoleNotFoundException;
 import ru.smolny.homework_03.mapper.IssueMapper;
@@ -46,7 +46,7 @@ public class ReaderService {
     }
 
     @Transactional
-    public User create(ReaderRequest request) {
+    public User create(UserRequest request) {
         User user = new User(
                 request.getName(),
                 passwordEncoder.encode(request.getPassword()),

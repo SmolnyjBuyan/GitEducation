@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import ru.smolny.homework_03.model.RoleType;
 import ru.smolny.homework_03.repository.UserRepository;
 
 @Configuration
@@ -30,8 +31,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable).
                 authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("ui/**").authenticated()
-                        .anyRequest().permitAll())
+                .requestMatchers("/ui/book/**").authenticated()
+                .requestMatchers("/ui/reader/**").hasAuthority(RoleType.READER.getAuthority())
+                .requestMatchers("/ui/issue/**").hasAuthority(RoleType.ADMIN.getAuthority())
+                .anyRequest().permitAll())
                 .formLogin(form -> form
                         .defaultSuccessUrl("/ui/book"))
                 .headers(headers -> headers

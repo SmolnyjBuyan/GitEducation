@@ -1,5 +1,9 @@
 package ru.smolny.homework_03.model;
 
 public enum RoleType {
-    READER, ADMIN
+    READER, ADMIN;
+
+    public String getAuthority() {
+        return this.name();
+    }
 }
