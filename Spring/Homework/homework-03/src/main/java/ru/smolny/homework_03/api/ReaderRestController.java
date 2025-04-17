@@ -100,7 +100,7 @@ public class ReaderRestController {
     })
     public ResponseEntity<ReaderResponse> create(
             @Valid @RequestBody ReaderRequest request, UriComponentsBuilder uriBuilder) {
-        User reader = readerService.create(request.getName().trim(), request.getPassword(), request.getFirstname());
+        User reader = readerService.create(request);
         ReaderResponse response = readerMapper.toReaderResponse(reader);
         URI uri = uriBuilder.path("/reader/{id}").buildAndExpand(response.getId()).toUri();
         return ResponseEntity.created(uri).body(response);

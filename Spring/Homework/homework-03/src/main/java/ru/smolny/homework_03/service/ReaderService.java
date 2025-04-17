@@ -1,9 +1,11 @@
 package ru.smolny.homework_03.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.smolny.homework_03.dto.IssueResponse;
+import ru.smolny.homework_03.dto.ReaderRequest;
 import ru.smolny.homework_03.exception.ReaderNotFoundException;
 import ru.smolny.homework_03.exception.RoleNotFoundException;
 import ru.smolny.homework_03.mapper.IssueMapper;
@@ -22,6 +24,7 @@ public class ReaderService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final IssueMapper issueMapper;
+    private final PasswordEncoder passwordEncoder;
 
     public User getById(long id) {
         User reader = userRepository.findById(id).orElseThrow(() -> new ReaderNotFoundException(id));
@@ -43,8 +46,11 @@ public class ReaderService {
     }
 
     @Transactional
-    public User create(String name, String password, String firstname) {
-        User user = new User(name, password, firstname);
+    public User create(ReaderRequest request) {
+        User user = new User(
+                request.getName(),
+                passwordEncoder.encode(request.getPassword()),
+                request.getFirstname());
         Role role = roleRepository.findByName(RoleType.READER)
                 .orElseThrow(() -> new RoleNotFoundException(RoleType.READER));
         user.addRole(role);
