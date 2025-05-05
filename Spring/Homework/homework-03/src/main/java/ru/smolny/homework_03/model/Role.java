@@ -22,4 +22,10 @@ public class Role {
 
     @ManyToMany(mappedBy = "roles")
     private Set<User> users = new HashSet<>();
+
+    public static Role ofName(RoleType roleType) {
+        Role role = new Role();
+        role.setName(roleType);
+        return role;
+    }
 }
