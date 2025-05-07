@@ -132,4 +132,20 @@ public class ReaderRestController {
     public ResponseEntity<List<IssueResponse>> getIssuesByReaderId(@PathVariable @Min(value = 1) long id) {
         return ResponseEntity.ok(readerService.getIssuesByReaderId(id));
     }
+
+    @GetMapping
+    @Operation(summary = "get readers", description = "Получить всех читателей")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Список читателей успешно найден",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = IssueResponse.class, type = "array")))
+    })
+    public ResponseEntity<List<ReaderResponse>> getAll() {
+        List<ReaderResponse> response = readerMapper.toReaderResponseList(readerService.getAll());
+        return ResponseEntity.ok(response);
+    }
+
 }

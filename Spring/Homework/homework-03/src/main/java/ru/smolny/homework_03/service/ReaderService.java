@@ -48,7 +48,7 @@ public class ReaderService {
     @Transactional
     public User create(UserRequest request) {
         User user = new User(
-                request.getName(),
+                request.getUsername(),
                 passwordEncoder.encode(request.getPassword()),
                 request.getFirstname());
         Role role = roleRepository.findByName(RoleType.READER)

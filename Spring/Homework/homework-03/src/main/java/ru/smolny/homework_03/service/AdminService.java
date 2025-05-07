@@ -22,7 +22,7 @@ public class AdminService {
     @Transactional
     public User create(UserRequest request) {
         User user = new User(
-                request.getName(),
+                request.getUsername(),
                 passwordEncoder.encode(request.getPassword()),
                 request.getFirstname()
         );

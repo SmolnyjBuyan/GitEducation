@@ -3,6 +3,7 @@ package ru.smolny.homework_03.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -10,6 +11,8 @@ import java.util.Set;
 @Entity
 @Table(name = "users")
 @Data
+@Builder
+@AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @RequiredArgsConstructor
@@ -17,6 +20,7 @@ public class User {
     @Id
     @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
     private long id;
 
     @NonNull
@@ -37,6 +41,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
+    @Builder.Default
     private Set<Role> roles = new HashSet<>();
 
     public void addRole(Role role) {
@@ -50,7 +55,8 @@ public class User {
     }
 
     @OneToMany(mappedBy = "user")
-    private List<Issue> issues;
+    @Builder.Default
+    private List<Issue> issues = new ArrayList<>();
 
     public List<Issue> getNotReturnedIssues() {
         return issues.stream().filter(Issue::isNotReturned).toList();

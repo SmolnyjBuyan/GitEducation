@@ -21,7 +21,7 @@ public class DataInitializer {
     private final IssueRepository issueRepository;
     private final RoleRepository roleRepository;
 
-    @Bean
+//    @Bean
     CommandLineRunner initTestData() {
         return args -> {
             Book book1 = bookRepository.save(new Book("Война и Мир"));
