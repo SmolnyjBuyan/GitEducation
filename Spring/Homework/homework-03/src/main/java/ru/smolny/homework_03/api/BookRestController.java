@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 import ru.smolny.homework_03.dto.BookRequest;
 import ru.smolny.homework_03.dto.BookResponse;
-import ru.smolny.homework_03.dto.ReaderResponse;
 import ru.smolny.homework_03.exception.ErrorResponse;
 import ru.smolny.homework_03.mapper.BookMapper;
 import ru.smolny.homework_03.model.Book;

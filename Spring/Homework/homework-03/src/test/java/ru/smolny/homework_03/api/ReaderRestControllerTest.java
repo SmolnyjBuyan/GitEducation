@@ -2,6 +2,7 @@ package ru.smolny.homework_03.api;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.hibernate.Hibernate;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
@@ -10,6 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.transaction.annotation.Transactional;
+import ru.smolny.homework_03.TestDataInitializer;
 import ru.smolny.homework_03.dto.ReaderResponse;
 import ru.smolny.homework_03.model.*;
 import ru.smolny.homework_03.repository.BookRepository;
@@ -20,7 +23,6 @@ import ru.smolny.homework_03.repository.UserRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
@@ -43,74 +45,23 @@ class ReaderRestControllerTest {
     private IssueRepository issueRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    private Role reader = Role.ofName(RoleType.READER);
-    private Role admin = Role.ofName(RoleType.ADMIN);
-
-    private User nice, wise, dice;
-    private Book red, sky, cyan;
-    private Issue redIssue, skyIssue, cyanIssue;
-    private List<User> users;
-    private List<Book> books;
-    private List<Issue> issues;
-
-    private void initTestData() {
-        red = new Book("Red");
-        sky = new Book("Sky");
-        cyan = new Book("Cyan");
-        books = List.of(red, sky, cyan);
-
-        nice = User.builder()
-                .username("nice")
-                .password(passwordEncoder.encode("1234"))
-                .firstname("Найс")
-                .roles(Set.of(reader))
-                .build();
-        wise = User.builder()
-                .username("wise")
-                .password(passwordEncoder.encode("1234"))
-                .firstname("Вайс")
-                .roles(Set.of(reader))
-                .build();
-        dice = User.builder()
-                .username("dice")
-                .password(passwordEncoder.encode("1234"))
-                .firstname("Дайс")
-                .roles(Set.of(reader))
-                .build();
-        users = List.of(nice, wise, dice);
-
-        redIssue = new Issue(red, wise);
-        skyIssue = new Issue(sky, wise);
-        cyanIssue = new Issue(cyan, dice);
-        issues = List.of(redIssue, skyIssue, cyanIssue);
-    }
-
-    @BeforeAll
-    void createRoles() {
-        roleRepository.save(reader);
-        roleRepository.save(admin);
-    }
+    @Autowired
+    private TestDataInitializer testData;
 
     @BeforeEach
     void setUp() {
-        initTestData();
-        issueRepository.deleteAll();
-        userRepository.deleteAll();
-        bookRepository.deleteAll();
-        userRepository.saveAll(users);
-        bookRepository.saveAll(books);
-        issueRepository.saveAll(issues);
+        testData.cleanAll();
+        testData.initData();
     }
 
     @AfterAll
     void cleanUp() {
-        userRepository.deleteAll();
-        roleRepository.deleteAll();
+        testData.cleanAll();
     }
 
     @Test
     void testGetByIdSuccess() {
+        User wise = testData.getWise();
         JUnitReaderResponse responseBody = webTestClient.get()
                 .uri(READER_API_URL + "/{id}", wise.getId())
                 .exchange()
@@ -142,6 +93,7 @@ class ReaderRestControllerTest {
 
     @Test
     void testGetAll() {
+        List<User> users = testData.getUsers();
         List<JUnitReaderResponse> responseBody = webTestClient.get()
                 .uri(READER_API_URL)
                 .exchange()
@@ -151,6 +103,7 @@ class ReaderRestControllerTest {
                 .returnResult()
                 .getResponseBody();
 
+        assertThat(responseBody).isNotNull();
         for (JUnitReaderResponse response : responseBody) {
             boolean found = users.stream()
                     .filter(it -> Objects.equals(it.getId(), response.getId()))
@@ -162,6 +115,7 @@ class ReaderRestControllerTest {
 
     @Test
     void testDeleteById() {
+        User wise = testData.getWise();
         webTestClient.delete()
                 .uri(READER_API_URL + "/{id}", wise.getId())
                 .exchange()
@@ -180,6 +134,7 @@ class ReaderRestControllerTest {
 
     @Test
     void testCreateReader() {
+        List<User> users = testData.getUsers();
         JUnitReaderRequest request = new JUnitReaderRequest("junit","1234", "JunitReader");
         int initialUserCount = users.size();
 
@@ -232,12 +187,16 @@ class ReaderRestControllerTest {
 
     @Test
     void testGetIssuesByReaderId() {
+        User wise = testData.getWise();
+        List<Issue> wiseIssues = testData.getIssues().stream().filter(issue -> issue.getUser().equals(wise)).toList();
+        List<JUnitResponseIssue> expectedResponseIssues = wiseIssues.stream().map(this::createExpectedIssue).toList();
+
         List<JUnitResponseIssue> responseIssues = webTestClient.get()
                 .uri(READER_API_URL + "/{id}/issue", wise.getId())
                 .exchange()
                 .expectStatus().isOk()
                 .expectBodyList(JUnitResponseIssue.class)
-                .hasSize(2)
+                .hasSize(wiseIssues.size())
                 .returnResult()
                 .getResponseBody();
 
@@ -246,19 +205,35 @@ class ReaderRestControllerTest {
                 .usingRecursiveComparison()
                 .ignoringFieldsOfTypes(LocalDateTime.class)
                 .ignoringCollectionOrder()
-                .isEqualTo(List.of(
-                        createExpectedIssue(redIssue, red),
-                        createExpectedIssue(skyIssue, sky)
-                ));
+                .isEqualTo(expectedResponseIssues);
     }
 
-    private JUnitResponseIssue createExpectedIssue(Issue issue, Book book) {
+    private JUnitResponseIssue createExpectedIssue(Issue issue) {
         JUnitResponseIssue expected = new JUnitResponseIssue();
         expected.setId(issue.getId());
-        expected.setBookId(book.getId());
-        expected.setBookTitle(book.getTitle());
+        expected.setBookId(issue.getBook().getId());
+        expected.setBookTitle(issue.getBook().getTitle());
+        expected.setReaderId(issue.getUser().getId());
+        expected.setReaderName(issue.getUser().getUsername());
         expected.setIssueDate(issue.getIssueDate());
+        expected.setReturnDate(issue.getReturnDate());
         return expected;
+    }
+
+    @Test
+    void testGetIssuesByReaderIdValidationFail() {
+        webTestClient.get()
+                .uri(READER_API_URL + "/{id}/issue", -1)
+                .exchange()
+                .expectStatus().isBadRequest();
+    }
+
+    @Test
+    void testGetIssuesByReaderIdNotFound() {
+        webTestClient.get()
+                .uri(READER_API_URL + "/{id}/issue", Long.MAX_VALUE)
+                .exchange()
+                .expectStatus().isNotFound();
     }
 
     @Data
@@ -281,6 +256,9 @@ class ReaderRestControllerTest {
         private long id;
         private long bookId;
         private String bookTitle;
+        private long readerId;
+        private String readerName;
         private LocalDateTime issueDate;
+        private LocalDateTime returnDate;
     }
 }

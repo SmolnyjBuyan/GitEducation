@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import ru.smolny.homework_03.dto.UserRequest;
 import ru.smolny.homework_03.model.*;
 import ru.smolny.homework_03.repository.BookRepository;
@@ -14,6 +15,7 @@ import ru.smolny.homework_03.service.ReaderService;
 
 @Configuration
 @RequiredArgsConstructor
+@Profile("!test")
 public class DataInitializer {
     private final BookRepository bookRepository;
     private final ReaderService readerService;
@@ -21,7 +23,7 @@ public class DataInitializer {
     private final IssueRepository issueRepository;
     private final RoleRepository roleRepository;
 
-//    @Bean
+    @Bean
     CommandLineRunner initTestData() {
         return args -> {
             Book book1 = bookRepository.save(new Book("Война и Мир"));
