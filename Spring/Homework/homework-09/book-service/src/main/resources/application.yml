@@ -7,3 +7,8 @@ eureka:
 spring:
   application:
     name: book-service
+
+execution:
+  time:
+    log:
+      enabled: true

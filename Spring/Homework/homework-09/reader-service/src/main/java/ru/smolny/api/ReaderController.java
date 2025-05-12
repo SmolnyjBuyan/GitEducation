@@ -4,6 +4,7 @@ import com.github.javafaker.Faker;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.smolny.ExecutionTimeLog;
 import ru.smolny.model.Reader;
 
 import java.util.ArrayList;
@@ -32,11 +33,13 @@ public class ReaderController {
         this.readers = readers;
     }
 
+    @ExecutionTimeLog
     @GetMapping
     public List<Reader> getAll() {
         return readers;
     }
 
+    @ExecutionTimeLog
     @GetMapping("/random")
     public Reader getRandom() {
         int randomIndex = faker.number().numberBetween(0, readers.size());

@@ -26,6 +26,7 @@
 		<module>issuer-service</module>
 		<module>discovery-service</module>
         <module>reader-service</module>
+        <module>execution-time-log-starter</module>
     </modules>
 	<scm>
 		<connection/>

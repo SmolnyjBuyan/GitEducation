@@ -4,6 +4,7 @@ import com.github.javafaker.Faker;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.smolny.ExecutionTimeLog;
 import ru.smolny.model.Issue;
 import ru.smolny.service.BookProvider;
 import ru.smolny.service.ReaderProvider;
@@ -44,11 +45,13 @@ public class IssueController {
         return instance.getTime();
     }
 
+    @ExecutionTimeLog
     @GetMapping
     public List<Issue> getAll() {
         return issues;
     }
 
+    @ExecutionTimeLog
     @GetMapping("/refresh")
     public List<Issue> refresh() {
         refreshData();

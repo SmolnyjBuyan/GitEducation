@@ -4,6 +4,7 @@ import com.github.javafaker.Faker;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.smolny.ExecutionTimeLog;
 import ru.smolny.model.Author;
 import ru.smolny.model.Book;
 
@@ -38,11 +39,13 @@ public class BookController {
         this.books = List.copyOf(books);
     }
 
+    @ExecutionTimeLog
     @GetMapping
     public List<Book> getAll() {
         return books;
     }
 
+    @ExecutionTimeLog
     @GetMapping("/random")
     public Book getRandom() {
         int randomIndex = faker.number().numberBetween(0, books.size());
